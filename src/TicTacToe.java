@@ -9,7 +9,7 @@ public class TicTacToe {
     private static final int size = 4;
     private Cell[][] board;
     private Scanner scanner;
-    private Player player1;
+    private Player player1; 
     private Player player2;
 
     public TicTacToe() {
@@ -47,7 +47,6 @@ public class TicTacToe {
     }
 
     public void display() {
-
         for (int i = 0; i < size - 1; i++) {
             if (i < size) {
                 System.out.println("----".repeat(size - 1) + "-");
@@ -129,6 +128,21 @@ public class TicTacToe {
                 board[0][j].getOwner() == board[1][j].getOwner() &&
                 board[1][j].getOwner() == board[2][j].getOwner()) {
                 return true;
+            }
+        }
+
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1; j++) {
+                if (board[0][0].getOwner() != null &&
+                    board[0][0].getOwner() == board[1][1].getOwner() &&
+                    board[1][1].getOwner() == board[2][2].getOwner()) {
+                    return true;
+                }
+                if (board[0][2].getOwner() != null &&
+                    board[0][2].getOwner() == board[1][1].getOwner() &&
+                    board[1][1].getOwner() == board[2][0].getOwner()) {
+                    return true;
+                }
             }
         }
 
