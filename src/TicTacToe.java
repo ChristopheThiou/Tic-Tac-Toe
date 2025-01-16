@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class TicTacToe {
     public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
-        ticTacToe.play();
+        ticTacToe.gameMode();
     }
 
     private static final int size = 4;
@@ -11,6 +11,8 @@ public class TicTacToe {
     private Scanner scanner;
     private Player player1; 
     private Player player2;
+    private ArtificialPlayer ai1;
+    private ArtificialPlayer ai2;
 
     public TicTacToe() {
         board = new Cell[size][size];
@@ -22,6 +24,8 @@ public class TicTacToe {
         }
         player1 = new Player.Player1();
         player2 = new Player.Player2();
+        ai1 = new ArtificialPlayer.Ai1();
+        ai2 = new ArtificialPlayer.Ai2();
     }
 
     public void play() {
@@ -55,7 +59,12 @@ public class TicTacToe {
                 if (board[i][j].getOwner() == null) {
                     System.out.print(Cell.getRepresentation());
                 } else {
-                    System.out.print(board[i][j].getOwner().getSymbol());
+                    Object owner = board[i][j].getOwner();
+                    if (owner instanceof Player) {
+                        System.out.print(((Player) owner).getSymbol());
+                    } else if (owner instanceof ArtificialPlayer) {
+                        System.out.print(((ArtificialPlayer) owner).getSymbol());
+                    }
                 }
             }
             System.out.println("|");
@@ -98,6 +107,15 @@ public class TicTacToe {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
             board[row][col].setValue(player.getSymbol());
+        } else {
+            throw new IllegalArgumentException("Invalid cell coordinates");
+        }
+    }
+
+    public void setOwnerAi(int row, int col, ArtificialPlayer ai) {
+        if (isValidMove(row, col)) {
+            board[row][col].setOwner(ai);
+            board[row][col].setValue(ai.getSymbol());
         } else {
             throw new IllegalArgumentException("Invalid cell coordinates");
         }
@@ -147,5 +165,92 @@ public class TicTacToe {
         }
 
         return false;
-    }  
+    }
+
+    public void gameMode() {
+        System.out.println("Choisissez le mode de jeu: ");
+        System.out.println("1. Joueur vs Joueur");
+        System.out.println("2. Joueur vs IA");
+        System.out.println("3. IA vs IA");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                play();
+                break;
+            case 2:
+                playWithAI();
+                break;
+            case 3:
+                playAIvsAI();
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez réessayer.");
+                gameMode();
+        }
+    }
+
+    public void playWithAI() {
+        System.out.println("Bienvenue dans le jeu Tic Tac Toe!");
+        System.out.println("Joueur 1 avec X et IA avec O");
+
+        Object currentPlayer = player1;
+        while (true) {
+            display();
+            if (isBoardFull()) {
+                System.out.println("Le jeu est terminé! Toutes les cases sont remplies.");
+                break;
+            }
+            if (currentPlayer instanceof Player) {
+                int[] move = getMoveFromPlayer((Player) currentPlayer);
+                setOwner(move[0], move[1], (Player) currentPlayer);
+            } else if (currentPlayer instanceof ArtificialPlayer) {
+                int row, col;
+                do {
+                    row = ((ArtificialPlayer) currentPlayer).getRow();
+                    col = ((ArtificialPlayer) currentPlayer).getCol();
+                } while (!isValidMove(row, col));
+                System.out.println(((ArtificialPlayer) currentPlayer).getName() + " joue en (" + row + ", " + col + ")");
+                setOwnerAi(row, col, (ArtificialPlayer) currentPlayer);
+            }
+            if (isOver() && currentPlayer instanceof Player) {
+                display();
+                System.out.println("Le jeu est terminé! " + ((Player) currentPlayer).getName() + " a gagné!");
+                break;
+            }
+            if (isOver() && currentPlayer instanceof ArtificialPlayer) {
+                display();
+                System.out.println("Le jeu est terminé! " + ((ArtificialPlayer) currentPlayer).getName() + " a gagné!");
+                break;
+            }
+            currentPlayer = (currentPlayer == player1) ? ai2 : player1;
+        }
+    }
+
+    public void playAIvsAI() {
+        System.out.println("Bienvenue dans le jeu Tic Tac Toe!");
+        System.out.println("IA 1 avec X et IA 2 avec O");
+
+        ArtificialPlayer currentPlayer = ai1;
+        while (true) {
+            display();
+            if (isBoardFull()) {
+                System.out.println("Le jeu est terminé! Toutes les cases sont remplies.");
+                break;
+            }
+            int row, col;
+            do {
+                row = currentPlayer.getRow();
+                col = currentPlayer.getCol();
+            } while (!isValidMove(row, col));
+            System.out.println(currentPlayer.getName() + " joue en (" + row + ", " + col + ")");
+            setOwnerAi(row, col, currentPlayer);
+            if (isOver()) {
+                display();
+                System.out.println("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
+                break;
+            }
+            currentPlayer = (currentPlayer == ai1) ? ai2 : ai1;
+        }
+    }
+
 }

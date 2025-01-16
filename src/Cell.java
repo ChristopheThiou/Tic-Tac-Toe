@@ -1,16 +1,14 @@
 public class Cell {
     private String value;
-    private Player owner;
-    private Player owner2;
+    private Object owner;
 
     public Cell() {
         this.value = "-";
         this.owner = null;
-        this.owner2 = null;
     }
 
     public boolean isEmpty() {
-        return this.value == "-";
+        return this.value.equals("-");
     }
 
     public String getValue() {
@@ -21,20 +19,12 @@ public class Cell {
         this.value = value;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(Object owner) {
         this.owner = owner;
     }
 
-    public void setOwner2(Player owner2) {
-        this.owner2 = owner2;
-    }
-
-    public Player getOwner() {
+    public Object getOwner() {
         return owner;
-    }
-
-    public Player getOwner2() {
-        return owner2;
     }
 
     public static String getRepresentation() {
