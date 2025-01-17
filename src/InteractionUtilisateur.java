@@ -48,7 +48,7 @@ public class InteractionUtilisateur {
                 vue.afficherMessage("1. Joueur vs Joueur");
                 vue.afficherMessage("2. Joueur vs IA");
                 vue.afficherMessage("3. IA vs IA");
-                vue.afficherMessage("404 Pour quitter");
+                vue.afficherMessage("404. Pour quitter");
                 choice = scanner.nextInt();
                 if (choice == 404) {
                     vue.afficherMessage("Partie terminée par l'utilisateur.");
