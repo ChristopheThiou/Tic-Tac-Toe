@@ -11,7 +11,7 @@ public class ArtificialPlayer {
         this.name = name;
     }
 
-    private void generateRandomPosition() {
+    void generateRandomPosition() {
         Random random = new Random();
         this.row = random.nextInt(3);
         this.col = random.nextInt(3);

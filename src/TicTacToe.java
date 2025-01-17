@@ -1,22 +1,22 @@
-import java.util.Scanner;
-
 public class TicTacToe {
     public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
         ticTacToe.gameMode();
     }
 
-    private static final int size = 4;
-    private Cell[][] board;
-    private Scanner scanner;
-    private Player player1; 
-    private Player player2;
-    private ArtificialPlayer ai1;
-    private ArtificialPlayer ai2;
+    public static final int size = 4;
+    public Cell[][] board;
+    public InteractionUtilisateur interactionUtilisateur;
+    public Vue vue;
+    Player player1;
+    Player player2;
+    ArtificialPlayer ai1;
+    ArtificialPlayer ai2;
 
     public TicTacToe() {
         board = new Cell[size][size];
-        scanner = new Scanner(System.in);
+        interactionUtilisateur = new InteractionUtilisateur();
+        vue = new Vue();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
@@ -29,71 +29,28 @@ public class TicTacToe {
     }
 
     public void play() {
-        System.out.println("Bienvenue dans le jeu Tic Tac Toe!");
-        System.out.println("Joueur 1 avec X et Joueur 2 avec O");
+        vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
+        vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
 
         Player currentPlayer = player1;
         while (true) {
-            display();
+            vue.afficherPlateau(board, size);
             if (isBoardFull()) {
-                System.out.println("Le jeu est terminé! Toutes les cases sont remplies.");
+                vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            int[] move = getMoveFromPlayer(currentPlayer);
+            int[] move = interactionUtilisateur.getMoveFromPlayer(currentPlayer);
             setOwner(move[0], move[1], currentPlayer);
             if (isOver()) {
-                display();
-                System.out.println("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
+                vue.afficherPlateau(board, size);
+                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
             currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
     }
 
-    public void display() {
-        for (int i = 0; i < size - 1; i++) {
-            if (i < size) {
-                System.out.println("----".repeat(size - 1) + "-");
-            }
-            for (int j = 0; j < size - 1; j++) {
-                if (board[i][j].getOwner() == null) {
-                    System.out.print(Cell.getRepresentation());
-                } else {
-                    Object owner = board[i][j].getOwner();
-                    if (owner instanceof Player) {
-                        System.out.print(((Player) owner).getSymbol());
-                    } else if (owner instanceof ArtificialPlayer) {
-                        System.out.print(((ArtificialPlayer) owner).getSymbol());
-                    }
-                }
-            }
-            System.out.println("|");
-        }
-        System.out.println("----".repeat(size - 1) + "-");
-    }
-
-    public int[] getMoveFromPlayer(Player player) {
-        int row, col;
-        while (true) {
-            System.out.println(player.getName() + ", entrez le numéro de ligne (0 à 2): ");
-            row = scanner.nextInt();
-            System.out.println(player.getName() + ", entrez le numéro de colonne (0 à 2): ");
-            col = scanner.nextInt();
-    
-            if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
-                if (isValidMove(row, col)) {
-                    break;
-                } else {
-                    System.out.println("Mouvement invalide. La case est déjà occupée. Veuillez réessayer.");
-                }
-            } else {
-                System.out.println("Entrée invalide. Les numéros de ligne et de colonne doivent être entre 0 et 2. Veuillez réessayer.");
-            }
-        }
-        return new int[]{row, col};
-    }
-
-    private boolean isValidMove(int row, int col) {
+    public boolean isValidMove(int row, int col) {
         if (row < 0 || row >= size || col < 0 || col >= size) {
             return false;
         }
@@ -121,7 +78,7 @@ public class TicTacToe {
         }
     }
 
-    private boolean isBoardFull() {
+    public boolean isBoardFull() {
         for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < size - 1; j++) {
                 if (board[i][j].isEmpty()) {
@@ -132,7 +89,7 @@ public class TicTacToe {
         return true;
     }
 
-    private boolean isOver() {
+    public boolean isOver() {
         for (int i = 0; i < size - 1; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
@@ -168,88 +125,20 @@ public class TicTacToe {
     }
 
     public void gameMode() {
-        System.out.println("Choisissez le mode de jeu: ");
-        System.out.println("1. Joueur vs Joueur");
-        System.out.println("2. Joueur vs IA");
-        System.out.println("3. IA vs IA");
-        int choice = scanner.nextInt();
+        int choice = interactionUtilisateur.getGameMode();
         switch (choice) {
             case 1:
                 play();
                 break;
             case 2:
-                playWithAI();
+                interactionUtilisateur.playWithAI(this);
                 break;
             case 3:
-                playAIvsAI();
+                interactionUtilisateur.playAIvsAI(this);
                 break;
             default:
-                System.out.println("Choix invalide. Veuillez réessayer.");
+                vue.afficherMessage("Choix invalide. Veuillez réessayer.");
                 gameMode();
-        }
-    }
-
-    public void playWithAI() {
-        System.out.println("Bienvenue dans le jeu Tic Tac Toe!");
-        System.out.println("Joueur 1 avec X et IA avec O");
-
-        Object currentPlayer = player1;
-        while (true) {
-            display();
-            if (isBoardFull()) {
-                System.out.println("Le jeu est terminé! Toutes les cases sont remplies.");
-                break;
-            }
-            if (currentPlayer instanceof Player) {
-                int[] move = getMoveFromPlayer((Player) currentPlayer);
-                setOwner(move[0], move[1], (Player) currentPlayer);
-            } else if (currentPlayer instanceof ArtificialPlayer) {
-                int row, col;
-                do {
-                    row = ((ArtificialPlayer) currentPlayer).getRow();
-                    col = ((ArtificialPlayer) currentPlayer).getCol();
-                } while (!isValidMove(row, col));
-                System.out.println(((ArtificialPlayer) currentPlayer).getName() + " joue en (" + row + ", " + col + ")");
-                setOwnerAi(row, col, (ArtificialPlayer) currentPlayer);
-            }
-            if (isOver() && currentPlayer instanceof Player) {
-                display();
-                System.out.println("Le jeu est terminé! " + ((Player) currentPlayer).getName() + " a gagné!");
-                break;
-            }
-            if (isOver() && currentPlayer instanceof ArtificialPlayer) {
-                display();
-                System.out.println("Le jeu est terminé! " + ((ArtificialPlayer) currentPlayer).getName() + " a gagné!");
-                break;
-            }
-            currentPlayer = (currentPlayer == player1) ? ai2 : player1;
-        }
-    }
-
-    public void playAIvsAI() {
-        System.out.println("Bienvenue dans le jeu Tic Tac Toe!");
-        System.out.println("IA 1 avec X et IA 2 avec O");
-
-        ArtificialPlayer currentPlayer = ai1;
-        while (true) {
-            display();
-            if (isBoardFull()) {
-                System.out.println("Le jeu est terminé! Toutes les cases sont remplies.");
-                break;
-            }
-            int row, col;
-            do {
-                row = currentPlayer.getRow();
-                col = currentPlayer.getCol();
-            } while (!isValidMove(row, col));
-            System.out.println(currentPlayer.getName() + " joue en (" + row + ", " + col + ")");
-            setOwnerAi(row, col, currentPlayer);
-            if (isOver()) {
-                display();
-                System.out.println("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
-                break;
-            }
-            currentPlayer = (currentPlayer == ai1) ? ai2 : ai1;
         }
     }
 }
