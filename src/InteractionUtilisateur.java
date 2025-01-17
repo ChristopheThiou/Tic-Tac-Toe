@@ -10,7 +10,7 @@ public class InteractionUtilisateur {
         vue = new Vue();
     }
 
-    protected int[] getMoveFromPlayer(AbstractPlayer player) {
+    protected int[] getMoveFromPlayer(AbstractPlayer player, TicTacToe game) {
         int row = -1, col = -1;
         while (true) {
             try {
@@ -27,10 +27,10 @@ public class InteractionUtilisateur {
                     System.exit(0);
                 }
     
-                if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
+                if (game.isValidMove(row, col)) {
                     break;
                 } else {
-                    vue.afficherMessage("Entrée invalide. Les numéros de ligne et de colonne doivent être entre 0 et 2. Veuillez réessayer.");
+                    vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer.");
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
@@ -71,7 +71,7 @@ public class InteractionUtilisateur {
     protected void playWithAI(TicTacToe game) {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("Joueur 1 avec X et IA avec O");
-
+    
         AbstractPlayer currentPlayer = game.player1;
         while (true) {
             vue.display(game.board, TicTacToe.size);
@@ -80,11 +80,12 @@ public class InteractionUtilisateur {
                 break;
             }
             if (currentPlayer instanceof Player) {
-                int[] move = getMoveFromPlayer((Player) currentPlayer);
+                int[] move = getMoveFromPlayer((Player) currentPlayer, game);
                 game.setOwner(move[0], move[1], (Player) currentPlayer);
             } else if (currentPlayer instanceof ArtificialPlayer) {
                 int row, col;
                 do {
+                    ((ArtificialPlayer) currentPlayer).generateRandomPosition();
                     row = ((ArtificialPlayer) currentPlayer).getRow();
                     col = ((ArtificialPlayer) currentPlayer).getCol();
                 } while (!game.isValidMove(row, col));

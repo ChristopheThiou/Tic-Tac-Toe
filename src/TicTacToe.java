@@ -40,7 +40,7 @@ public class TicTacToe {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            int[] move = interactionUtilisateur.getMoveFromPlayer(currentPlayer);
+            int[] move = interactionUtilisateur.getMoveFromPlayer(currentPlayer, TicTacToe.this);
             setOwner(move[0], move[1], currentPlayer);
             if (isOver()) {
                 vue.display(board, size);
@@ -107,19 +107,23 @@ public class TicTacToe {
             }
         }
 
-        if (board[0][0].getOwner() != null &&
-            board[0][0].getOwner() == board[1][1].getOwner() &&
-            board[1][1].getOwner() == board[2][2].getOwner()) {
-            return true;
-        }
-        if (board[0][2].getOwner() != null &&
-            board[0][2].getOwner() == board[1][1].getOwner() &&
-            board[1][1].getOwner() == board[2][0]) {
-            return true;
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1; j++) {
+                if (board[0][0].getOwner() != null &&
+                    board[0][0].getOwner() == board[1][1].getOwner() &&
+                    board[1][1].getOwner() == board[2][2].getOwner()) {
+                    return true;
+                }
+                if (board[0][2].getOwner() != null &&
+                    board[0][2].getOwner() == board[1][1].getOwner() &&
+                    board[1][1].getOwner() == board[2][0].getOwner()) {
+                    return true;
+                }
+            }
         }
 
         return false;
-    }
+}
 
     protected void gameMode() {
         int choice = interactionUtilisateur.getGameMode();

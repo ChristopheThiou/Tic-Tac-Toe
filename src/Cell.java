@@ -1,6 +1,6 @@
 public class Cell {
-    protected String value;
-    protected Object owner;
+    private String value;
+    private Object owner;
 
     protected Cell() {
         this.value = "-";

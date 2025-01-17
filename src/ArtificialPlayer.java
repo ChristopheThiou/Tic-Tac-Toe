@@ -1,11 +1,12 @@
 import java.util.Random;
 
-public class ArtificialPlayer extends AbstractPlayer {
+public class ArtificialPlayer extends Player {
     protected int row;
     protected int col;
 
     public ArtificialPlayer(String symbol, String name) {
         super(symbol, name);
+        
     }
 
     void generateRandomPosition() {
