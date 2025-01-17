@@ -3,7 +3,7 @@ public class Vue {
         System.out.println(message);
     }
 
-    protected void afficherPlateau(Cell[][] board, int size) {
+    protected void display(Cell[][] board, int size) {
         for (int i = 0; i < size - 1; i++) {
             if (i < size) {
                 System.out.println("----".repeat(size - 1) + "-");

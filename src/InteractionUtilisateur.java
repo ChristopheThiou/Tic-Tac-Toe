@@ -14,11 +14,19 @@ public class InteractionUtilisateur {
         int row = -1, col = -1;
         while (true) {
             try {
-                vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2): ");
+                vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2) ou 404 pour quitter: ");
                 row = scanner.nextInt();
-                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2): ");
+                if (row == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2) ou 404 pour quitter: ");
                 col = scanner.nextInt();
-
+                if (col == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+    
                 if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
                     break;
                 } else {
@@ -26,7 +34,7 @@ public class InteractionUtilisateur {
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
-                scanner.next(); // Clear the invalid input
+                scanner.next();
             }
         }
         return new int[]{row, col};
@@ -40,7 +48,12 @@ public class InteractionUtilisateur {
                 vue.afficherMessage("1. Joueur vs Joueur");
                 vue.afficherMessage("2. Joueur vs IA");
                 vue.afficherMessage("3. IA vs IA");
+                vue.afficherMessage("404 Pour quitter");
                 choice = scanner.nextInt();
+                if (choice == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
 
                 if (choice >= 1 && choice <= 3) {
                     break;
@@ -49,7 +62,7 @@ public class InteractionUtilisateur {
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
-                scanner.next(); // Clear the invalid input
+                scanner.next();
             }
         }
         return choice;
@@ -61,7 +74,7 @@ public class InteractionUtilisateur {
 
         AbstractPlayer currentPlayer = game.player1;
         while (true) {
-            vue.afficherPlateau(game.board, TicTacToe.size);
+            vue.display(game.board, TicTacToe.size);
             if (game.isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
@@ -79,7 +92,7 @@ public class InteractionUtilisateur {
                 game.setOwnerAi(row, col, (ArtificialPlayer) currentPlayer);
             }
             if (game.isOver()) {
-                vue.afficherPlateau(game.board, TicTacToe.size);
+                vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
@@ -93,7 +106,7 @@ public class InteractionUtilisateur {
 
         ArtificialPlayer currentPlayer = game.ai1;
         while (true) {
-            vue.afficherPlateau(game.board, TicTacToe.size);
+            vue.display(game.board, TicTacToe.size);
             if (game.isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
@@ -106,7 +119,7 @@ public class InteractionUtilisateur {
             vue.afficherMessage(currentPlayer.getName() + " joue en (" + row + ", " + col + ")");
             game.setOwnerAi(row, col, currentPlayer);
             if (game.isOver()) {
-                vue.afficherPlateau(game.board, TicTacToe.size);
+                vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }

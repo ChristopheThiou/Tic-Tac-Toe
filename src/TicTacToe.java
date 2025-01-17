@@ -31,10 +31,11 @@ public class TicTacToe {
     protected void play() {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
+        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404");
 
         AbstractPlayer currentPlayer = player1;
         while (true) {
-            vue.afficherPlateau(board, size);
+            vue.display(board, size);
             if (isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
@@ -42,7 +43,7 @@ public class TicTacToe {
             int[] move = interactionUtilisateur.getMoveFromPlayer(currentPlayer);
             setOwner(move[0], move[1], currentPlayer);
             if (isOver()) {
-                vue.afficherPlateau(board, size);
+                vue.display(board, size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
