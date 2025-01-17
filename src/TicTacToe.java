@@ -252,5 +252,4 @@ public class TicTacToe {
             currentPlayer = (currentPlayer == ai1) ? ai2 : ai1;
         }
     }
-
 }
