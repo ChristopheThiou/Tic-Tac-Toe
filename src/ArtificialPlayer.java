@@ -1,28 +1,17 @@
 import java.util.Random;
 
-public class ArtificialPlayer {
-    protected String symbol;
-    protected String name;
+public class ArtificialPlayer extends AbstractPlayer {
     protected int row;
     protected int col;
 
     public ArtificialPlayer(String symbol, String name) {
-        this.symbol = symbol;
-        this.name = name;
+        super(symbol, name);
     }
 
     void generateRandomPosition() {
         Random random = new Random();
         this.row = random.nextInt(3);
         this.col = random.nextInt(3);
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getRow() {

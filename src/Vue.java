@@ -1,9 +1,9 @@
 public class Vue {
-    public void afficherMessage(String message) {
+    protected void afficherMessage(String message) {
         System.out.println(message);
     }
 
-    public void afficherPlateau(Cell[][] board, int size) {
+    protected void afficherPlateau(Cell[][] board, int size) {
         for (int i = 0; i < size - 1; i++) {
             if (i < size) {
                 System.out.println("----".repeat(size - 1) + "-");

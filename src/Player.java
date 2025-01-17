@@ -1,18 +1,6 @@
-public class Player {
-    protected String symbol;
-    protected String name;
-
+public class Player extends AbstractPlayer {
     public Player(String symbol, String name) {
-        this.symbol = symbol;
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public String getName() {
-        return name;
+        super(symbol, name);
     }
 
     public static class Player1 extends Player {

@@ -1,33 +1,33 @@
 public class Cell {
-    private String value;
-    private Object owner;
+    protected String value;
+    protected Object owner;
 
-    public Cell() {
+    protected Cell() {
         this.value = "-";
         this.owner = null;
     }
 
-    public boolean isEmpty() {
+    protected boolean isEmpty() {
         return this.value.equals("-");
     }
 
-    public String getValue() {
+    protected String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    protected void setValue(String value) {
         this.value = value;
     }
 
-    public void setOwner(Object owner) {
+    protected void setOwner(Object owner) {
         this.owner = owner;
     }
 
-    public Object getOwner() {
+    protected Object getOwner() {
         return owner;
     }
 
-    public static String getRepresentation() {
+    protected static String getRepresentation() {
         return "|   ";
     }
 }

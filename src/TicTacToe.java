@@ -1,19 +1,19 @@
 public class TicTacToe {
-    public static void main(String[] args) {
+    protected static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
         ticTacToe.gameMode();
     }
 
-    public static final int size = 4;
-    public Cell[][] board;
-    public InteractionUtilisateur interactionUtilisateur;
-    public Vue vue;
-    Player player1;
-    Player player2;
+    protected static final int size = 4;
+    protected Cell[][] board;
+    protected InteractionUtilisateur interactionUtilisateur;
+    protected Vue vue;
+    AbstractPlayer player1;
+    AbstractPlayer player2;
     ArtificialPlayer ai1;
     ArtificialPlayer ai2;
 
-    public TicTacToe() {
+    protected TicTacToe() {
         board = new Cell[size][size];
         interactionUtilisateur = new InteractionUtilisateur();
         vue = new Vue();
@@ -28,11 +28,11 @@ public class TicTacToe {
         ai2 = new ArtificialPlayer.Ai2();
     }
 
-    public void play() {
+    protected void play() {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
 
-        Player currentPlayer = player1;
+        AbstractPlayer currentPlayer = player1;
         while (true) {
             vue.afficherPlateau(board, size);
             if (isBoardFull()) {
@@ -50,7 +50,7 @@ public class TicTacToe {
         }
     }
 
-    public boolean isValidMove(int row, int col) {
+    protected boolean isValidMove(int row, int col) {
         if (row < 0 || row >= size || col < 0 || col >= size) {
             return false;
         }
@@ -60,7 +60,7 @@ public class TicTacToe {
         return true;
     }
 
-    public void setOwner(int row, int col, Player player) {
+    protected void setOwner(int row, int col, AbstractPlayer player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
             board[row][col].setValue(player.getSymbol());
@@ -69,7 +69,7 @@ public class TicTacToe {
         }
     }
 
-    public void setOwnerAi(int row, int col, ArtificialPlayer ai) {
+    protected void setOwnerAi(int row, int col, ArtificialPlayer ai) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(ai);
             board[row][col].setValue(ai.getSymbol());
@@ -78,9 +78,9 @@ public class TicTacToe {
         }
     }
 
-    public boolean isBoardFull() {
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+    protected boolean isBoardFull() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }
@@ -89,8 +89,8 @@ public class TicTacToe {
         return true;
     }
 
-    public boolean isOver() {
-        for (int i = 0; i < size - 1; i++) {
+    protected boolean isOver() {
+        for (int i = 0; i < size; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
                 board[i][1].getOwner() == board[i][2].getOwner()) {
@@ -98,7 +98,7 @@ public class TicTacToe {
             }
         }
 
-        for (int j = 0; j < size - 1; j++) {
+        for (int j = 0; j < size; j++) {
             if (board[0][j].getOwner() != null &&
                 board[0][j].getOwner() == board[1][j].getOwner() &&
                 board[1][j].getOwner() == board[2][j].getOwner()) {
@@ -106,25 +106,21 @@ public class TicTacToe {
             }
         }
 
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
-                if (board[0][0].getOwner() != null &&
-                    board[0][0].getOwner() == board[1][1].getOwner() &&
-                    board[1][1].getOwner() == board[2][2].getOwner()) {
-                    return true;
-                }
-                if (board[0][2].getOwner() != null &&
-                    board[0][2].getOwner() == board[1][1].getOwner() &&
-                    board[1][1].getOwner() == board[2][0].getOwner()) {
-                    return true;
-                }
-            }
+        if (board[0][0].getOwner() != null &&
+            board[0][0].getOwner() == board[1][1].getOwner() &&
+            board[1][1].getOwner() == board[2][2].getOwner()) {
+            return true;
+        }
+        if (board[0][2].getOwner() != null &&
+            board[0][2].getOwner() == board[1][1].getOwner() &&
+            board[1][1].getOwner() == board[2][0]) {
+            return true;
         }
 
         return false;
     }
 
-    public void gameMode() {
+    protected void gameMode() {
         int choice = interactionUtilisateur.getGameMode();
         switch (choice) {
             case 1:

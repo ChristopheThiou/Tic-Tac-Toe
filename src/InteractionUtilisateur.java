@@ -1,44 +1,65 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
-    private Scanner scanner;
-    private Vue vue;
+    protected Scanner scanner;
+    protected Vue vue;
 
-    public InteractionUtilisateur() {
+    protected InteractionUtilisateur() {
         scanner = new Scanner(System.in);
         vue = new Vue();
     }
 
-    public int[] getMoveFromPlayer(Player player) {
-        int row, col;
+    protected int[] getMoveFromPlayer(AbstractPlayer player) {
+        int row = -1, col = -1;
         while (true) {
-            vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2): ");
-            row = scanner.nextInt();
-            vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2): ");
-            col = scanner.nextInt();
+            try {
+                vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2): ");
+                row = scanner.nextInt();
+                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2): ");
+                col = scanner.nextInt();
 
-            if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
-                break;
-            } else {
-                vue.afficherMessage("Entrée invalide. Les numéros de ligne et de colonne doivent être entre 0 et 2. Veuillez réessayer.");
+                if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
+                    break;
+                } else {
+                    vue.afficherMessage("Entrée invalide. Les numéros de ligne et de colonne doivent être entre 0 et 2. Veuillez réessayer.");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.next(); // Clear the invalid input
             }
         }
         return new int[]{row, col};
     }
 
-    public int getGameMode() {
-        vue.afficherMessage("Choisissez le mode de jeu: ");
-        vue.afficherMessage("1. Joueur vs Joueur");
-        vue.afficherMessage("2. Joueur vs IA");
-        vue.afficherMessage("3. IA vs IA");
-        return scanner.nextInt();
+    protected int getGameMode() {
+        int choice = -1;
+        while (true) {
+            try {
+                vue.afficherMessage("Choisissez le mode de jeu: ");
+                vue.afficherMessage("1. Joueur vs Joueur");
+                vue.afficherMessage("2. Joueur vs IA");
+                vue.afficherMessage("3. IA vs IA");
+                choice = scanner.nextInt();
+
+                if (choice >= 1 && choice <= 3) {
+                    break;
+                } else {
+                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3.");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.next(); // Clear the invalid input
+            }
+        }
+        return choice;
     }
 
-    public void playWithAI(TicTacToe game) {
+    protected void playWithAI(TicTacToe game) {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("Joueur 1 avec X et IA avec O");
 
-        Object currentPlayer = game.player1;
+        AbstractPlayer currentPlayer = game.player1;
         while (true) {
             vue.afficherPlateau(game.board, TicTacToe.size);
             if (game.isBoardFull()) {
@@ -51,7 +72,6 @@ public class InteractionUtilisateur {
             } else if (currentPlayer instanceof ArtificialPlayer) {
                 int row, col;
                 do {
-                    ((ArtificialPlayer) currentPlayer).generateRandomPosition();
                     row = ((ArtificialPlayer) currentPlayer).getRow();
                     col = ((ArtificialPlayer) currentPlayer).getCol();
                 } while (!game.isValidMove(row, col));
@@ -60,14 +80,14 @@ public class InteractionUtilisateur {
             }
             if (game.isOver()) {
                 vue.afficherPlateau(game.board, TicTacToe.size);
-                vue.afficherMessage("Le jeu est terminé! " + ((Player) currentPlayer).getName() + " a gagné!");
+                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
             currentPlayer = (currentPlayer == game.player1) ? game.ai2 : game.player1;
         }
     }
 
-    public void playAIvsAI(TicTacToe game) {
+    protected void playAIvsAI(TicTacToe game) {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("IA 1 avec X et IA 2 avec O");
 
@@ -80,7 +100,6 @@ public class InteractionUtilisateur {
             }
             int row, col;
             do {
-                currentPlayer.generateRandomPosition();
                 row = currentPlayer.getRow();
                 col = currentPlayer.getCol();
             } while (!game.isValidMove(row, col));
