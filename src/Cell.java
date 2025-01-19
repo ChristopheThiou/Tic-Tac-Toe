@@ -3,12 +3,12 @@ public class Cell {
     private Player owner;
 
     protected Cell() {
-        this.value = false;
-        this.owner = null;
+        value = false;
+        owner = null;
     }
 
     protected boolean isEmpty() {
-        return !this.value;
+        return !value;
     }
 
     protected Boolean getValue() {

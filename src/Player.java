@@ -24,11 +24,13 @@ public class Player {
     }
 
     public int[] getMove(TicTacToe game) {
+        int[] move;
         if (isArtificial) {
-            return generateRandomPosition(game);
+            move = generateRandomPosition(game);
         } else {
-            return game.interactionUtilisateur.getMoveFromPlayer(this, game);
+            move = game.interactionUtilisateur.getMoveFromPlayer(this, game);
         }
+        return move;
     }
 
     private int[] generateRandomPosition(TicTacToe game) {

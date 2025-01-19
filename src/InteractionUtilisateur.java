@@ -81,6 +81,7 @@ public class InteractionUtilisateur {
             }
             int[] move = currentPlayer.getMove(game);
             game.setOwner(move[0], move[1], currentPlayer);
+            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
             if (game.isOver()) {
                 vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
@@ -103,6 +104,7 @@ public class InteractionUtilisateur {
             }
             int[] move = currentPlayer.getMove(game);
             game.setOwner(move[0], move[1], currentPlayer);
+            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
             if (game.isOver()) {
                 vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");

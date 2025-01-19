@@ -38,6 +38,7 @@ public class TicTacToe {
             }
             int[] move = currentPlayer.getMove(this);
             setOwner(move[0], move[1], currentPlayer);
+            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
             if (isOver()) {
                 vue.display(board, size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
