@@ -1,5 +1,5 @@
 public class TicTacToe {
-    protected static void main(String[] args) {
+    public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
         ticTacToe.gameMode();
     }
@@ -8,10 +8,8 @@ public class TicTacToe {
     protected Cell[][] board;
     protected InteractionUtilisateur interactionUtilisateur;
     protected Vue vue;
-    AbstractPlayer player1;
-    AbstractPlayer player2;
-    ArtificialPlayer ai1;
-    ArtificialPlayer ai2;
+    Player player1;
+    Player player2;
 
     protected TicTacToe() {
         board = new Cell[size][size];
@@ -22,10 +20,8 @@ public class TicTacToe {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player.Player1();
-        player2 = new Player.Player2();
-        ai1 = new ArtificialPlayer.Ai1();
-        ai2 = new ArtificialPlayer.Ai2();
+        player1 = new Player("| X ", "Joueur 1", false);
+        player2 = new Player("| O ", "Joueur 2", false);
     }
 
     protected void play() {
@@ -33,14 +29,14 @@ public class TicTacToe {
         vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
         vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404");
 
-        AbstractPlayer currentPlayer = player1;
+        Player currentPlayer = player1;
         while (true) {
             vue.display(board, size);
             if (isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            int[] move = interactionUtilisateur.getMoveFromPlayer(currentPlayer, TicTacToe.this);
+            int[] move = currentPlayer.getMove(this);
             setOwner(move[0], move[1], currentPlayer);
             if (isOver()) {
                 vue.display(board, size);
@@ -61,19 +57,10 @@ public class TicTacToe {
         return true;
     }
 
-    protected void setOwner(int row, int col, AbstractPlayer player) {
+    protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
-            board[row][col].setValue(player.getSymbol());
-        } else {
-            throw new IllegalArgumentException("Invalid cell coordinates");
-        }
-    }
-
-    protected void setOwnerAi(int row, int col, ArtificialPlayer ai) {
-        if (isValidMove(row, col)) {
-            board[row][col].setOwner(ai);
-            board[row][col].setValue(ai.getSymbol());
+            board[row][col].setValue(true);
         } else {
             throw new IllegalArgumentException("Invalid cell coordinates");
         }
@@ -107,8 +94,8 @@ public class TicTacToe {
             }
         }
 
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[0][0].getOwner() != null &&
                     board[0][0].getOwner() == board[1][1].getOwner() &&
                     board[1][1].getOwner() == board[2][2].getOwner()) {
@@ -132,10 +119,13 @@ public class TicTacToe {
                 play();
                 break;
             case 2:
-                interactionUtilisateur.playWithAI(this);
+                player2 = new Player("| O ", "AI", true);
+                play();
                 break;
             case 3:
-                interactionUtilisateur.playAIvsAI(this);
+                player1 = new Player("| X ", "AI 1", true);
+                player2 = new Player("| O ", "AI 2", true);
+                play();
                 break;
             default:
                 vue.afficherMessage("Choix invalide. Veuillez réessayer.");

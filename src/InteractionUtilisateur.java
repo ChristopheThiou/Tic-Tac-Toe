@@ -10,7 +10,7 @@ public class InteractionUtilisateur {
         vue = new Vue();
     }
 
-    protected int[] getMoveFromPlayer(AbstractPlayer player, TicTacToe game) {
+    protected int[] getMoveFromPlayer(Player player, TicTacToe game) {
         int row = -1, col = -1;
         while (true) {
             try {
@@ -26,7 +26,7 @@ public class InteractionUtilisateur {
                     vue.afficherMessage("Partie terminée par l'utilisateur.");
                     System.exit(0);
                 }
-    
+
                 if (game.isValidMove(row, col)) {
                     break;
                 } else {
@@ -71,33 +71,22 @@ public class InteractionUtilisateur {
     protected void playWithAI(TicTacToe game) {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("Joueur 1 avec X et IA avec O");
-    
-        AbstractPlayer currentPlayer = game.player1;
+
+        Player currentPlayer = game.player1;
         while (true) {
             vue.display(game.board, TicTacToe.size);
             if (game.isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            if (currentPlayer instanceof Player) {
-                int[] move = getMoveFromPlayer((Player) currentPlayer, game);
-                game.setOwner(move[0], move[1], (Player) currentPlayer);
-            } else if (currentPlayer instanceof ArtificialPlayer) {
-                int row, col;
-                do {
-                    ((ArtificialPlayer) currentPlayer).generateRandomPosition();
-                    row = ((ArtificialPlayer) currentPlayer).getRow();
-                    col = ((ArtificialPlayer) currentPlayer).getCol();
-                } while (!game.isValidMove(row, col));
-                vue.afficherMessage(((ArtificialPlayer) currentPlayer).getName() + " joue en (" + row + ", " + col + ")");
-                game.setOwnerAi(row, col, (ArtificialPlayer) currentPlayer);
-            }
+            int[] move = currentPlayer.getMove(game);
+            game.setOwner(move[0], move[1], currentPlayer);
             if (game.isOver()) {
                 vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
-            currentPlayer = (currentPlayer == game.player1) ? game.ai2 : game.player1;
+            currentPlayer = (currentPlayer == game.player1) ? game.player2 : game.player1;
         }
     }
 
@@ -105,26 +94,21 @@ public class InteractionUtilisateur {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
         vue.afficherMessage("IA 1 avec X et IA 2 avec O");
 
-        ArtificialPlayer currentPlayer = game.ai1;
+        Player currentPlayer = game.player1;
         while (true) {
             vue.display(game.board, TicTacToe.size);
             if (game.isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            int row, col;
-            do {
-                row = currentPlayer.getRow();
-                col = currentPlayer.getCol();
-            } while (!game.isValidMove(row, col));
-            vue.afficherMessage(currentPlayer.getName() + " joue en (" + row + ", " + col + ")");
-            game.setOwnerAi(row, col, currentPlayer);
+            int[] move = currentPlayer.getMove(game);
+            game.setOwner(move[0], move[1], currentPlayer);
             if (game.isOver()) {
                 vue.display(game.board, TicTacToe.size);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
                 break;
             }
-            currentPlayer = (currentPlayer == game.ai1) ? game.ai2 : game.ai1;
+            currentPlayer = (currentPlayer == game.player1) ? game.player2 : game.player1;
         }
     }
 }

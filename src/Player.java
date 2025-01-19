@@ -1,17 +1,43 @@
-public class Player extends AbstractPlayer {
-    public Player(String symbol, String name) {
-        super(symbol, name);
+import java.util.Random;
+
+public class Player {
+    protected String symbol;
+    protected String name;
+    protected boolean isArtificial;
+
+    public Player(String symbol, String name, boolean isArtificial) {
+        this.symbol = symbol;
+        this.name = name;
+        this.isArtificial = isArtificial;
     }
 
-    public static class Player1 extends Player {
-        public Player1() {
-            super("| X ", "Joueur 1");
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isArtificial() {
+        return isArtificial;
+    }
+
+    public int[] getMove(TicTacToe game) {
+        if (isArtificial) {
+            return generateRandomPosition(game);
+        } else {
+            return game.interactionUtilisateur.getMoveFromPlayer(this, game);
         }
     }
 
-    public static class Player2 extends Player {
-        public Player2() {
-            super("| O ", "Joueur 2");
-        }
+    private int[] generateRandomPosition(TicTacToe game) {
+        Random random = new Random();
+        int row, col;
+        do {
+            row = random.nextInt(TicTacToe.size - 1);
+            col = random.nextInt(TicTacToe.size - 1);
+        } while (!game.isValidMove(row, col));
+        return new int[]{row, col};
     }
 }
