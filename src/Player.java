@@ -40,6 +40,8 @@ public class Player {
             row = random.nextInt(game.size - 1);
             col = random.nextInt(game.size - 1);
         } while (!game.isValidMove(row, col));
+
         return new int[]{row, col};
-    }
+        
+    } 
 }

@@ -45,7 +45,7 @@ public class TicTacToe {
 
             if (isOver()) {
                 vue.display(board, size);
-                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné! 🔆");
+                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné! 🔆👌");
                 break;
             }
 
@@ -131,7 +131,7 @@ public class TicTacToe {
                 play();
                 break;
             default:
-                vue.afficherMessage("Choix invalide. Veuillez réessayer.");
+                vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
                 gameMode();
         }
     }
