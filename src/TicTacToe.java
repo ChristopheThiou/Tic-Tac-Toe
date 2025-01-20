@@ -15,8 +15,8 @@ public class TicTacToe {
         board = new Cell[size][size];
         interactionUtilisateur = new InteractionUtilisateur();
         vue = new Vue();
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -49,7 +49,7 @@ public class TicTacToe {
     }
 
     protected boolean isValidMove(int row, int col) {
-        if (row < 0 || row >= size || col < 0 || col >= size) {
+        if (row < 0 || row >= size - 1 || col < 0 || col >= size - 1) {
             return false;
         }
         if (!board[row][col].isEmpty()) {
