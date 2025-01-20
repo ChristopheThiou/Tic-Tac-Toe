@@ -79,7 +79,7 @@ public class TicTacToe {
     }
 
     protected boolean isOver() {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size - 1; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
                 board[i][1].getOwner() == board[i][2].getOwner()) {
@@ -87,7 +87,7 @@ public class TicTacToe {
             }
         }
 
-        for (int j = 0; j < size; j++) {
+        for (int j = 0; j < size - 1; j++) {
             if (board[0][j].getOwner() != null &&
                 board[0][j].getOwner() == board[1][j].getOwner() &&
                 board[1][j].getOwner() == board[2][j].getOwner()) {
@@ -95,8 +95,8 @@ public class TicTacToe {
             }
         }
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1; j++) {
                 if (board[0][0].getOwner() != null &&
                     board[0][0].getOwner() == board[1][1].getOwner() &&
                     board[1][1].getOwner() == board[2][2].getOwner()) {
