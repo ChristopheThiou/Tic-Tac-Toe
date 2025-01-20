@@ -1,22 +1,13 @@
 public class Cell {
-    private Boolean value;
     private Player owner;
+    private Player player = null;
 
     protected Cell() {
-        value = false;
-        owner = null;
+        this.owner = player;
     }
 
     protected boolean isEmpty() {
-        return !value;
-    }
-
-    protected Boolean getValue() {
-        return value;
-    }
-
-    protected void setValue(Boolean value) {
-        this.value = value;
+        return owner == player;
     }
 
     protected void setOwner(Player owner) {
@@ -30,10 +21,9 @@ public class Cell {
     public String getRepresentation() {
         if (owner == null) {
             return "|   ";
-        } else if (owner instanceof Player) {
-            return (owner).getSymbol();
-        } 
-        return null;
+        } else {
+            return owner.getSymbol();
+        }
     }
 
     public static String getBoardRepresentation(Cell[][] board, int size) {

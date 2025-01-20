@@ -61,7 +61,6 @@ public class TicTacToe {
     protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
-            board[row][col].setValue(true);
         } else {
             throw new IllegalArgumentException("Invalid cell coordinates");
         }
