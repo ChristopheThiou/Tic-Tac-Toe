@@ -4,7 +4,7 @@ public class TicTacToe {
         ticTacToe.gameMode();
     }
 
-    protected static final int size = 4;
+    protected final int size = 4;
     protected Cell[][] board;
     protected InteractionUtilisateur interactionUtilisateur;
     protected Vue vue;
@@ -25,25 +25,30 @@ public class TicTacToe {
     }
 
     protected void play() {
-        vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe!");
+        vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe! 🤗");
         vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
-        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404");
+        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
 
         Player currentPlayer = player1;
         while (true) {
+
             vue.display(board, size);
+
+            int[] move = currentPlayer.getMove(this);
+            setOwner(move[0], move[1], currentPlayer);
+            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
+
             if (isBoardFull()) {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            int[] move = currentPlayer.getMove(this);
-            setOwner(move[0], move[1], currentPlayer);
-            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
+
             if (isOver()) {
                 vue.display(board, size);
-                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné!");
+                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné! 🔆");
                 break;
             }
+
             currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
     }
@@ -62,7 +67,7 @@ public class TicTacToe {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
         } else {
-            throw new IllegalArgumentException("Invalid cell coordinates");
+            throw new IllegalArgumentException("Invalid cell coordinates 💩");
         }
     }
 

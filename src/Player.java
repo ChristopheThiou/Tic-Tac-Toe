@@ -37,8 +37,8 @@ public class Player {
         Random random = new Random();
         int row, col;
         do {
-            row = random.nextInt(TicTacToe.size - 1);
-            col = random.nextInt(TicTacToe.size - 1);
+            row = random.nextInt(game.size - 1);
+            col = random.nextInt(game.size - 1);
         } while (!game.isValidMove(row, col));
         return new int[]{row, col};
     }

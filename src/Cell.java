@@ -26,7 +26,7 @@ public class Cell {
         }
     }
 
-    public static String getBoardRepresentation(Cell[][] board, int size) {
+    public String getBoardRepresentation(Cell[][] board, int size) {
         StringBuilder representation = new StringBuilder();
         for (int i = 0; i < size - 1; i++) {
             representation.append("---".repeat(size)).append("-\n");

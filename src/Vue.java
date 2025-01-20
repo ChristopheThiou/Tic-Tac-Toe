@@ -4,6 +4,7 @@ public class Vue {
     }
 
     public void display(Cell[][] board, int size) {
-        System.out.print(Cell.getBoardRepresentation(board, size));
+        Cell cell = new Cell();
+        System.out.print(cell.getBoardRepresentation(board, size));
     }
 }

@@ -44,14 +44,14 @@ public class InteractionUtilisateur {
         int choice = 0;
         while (true) {
             try {
-                vue.afficherMessage("Choisissez le mode de jeu: ");
-                vue.afficherMessage("1. Joueur vs Joueur");
-                vue.afficherMessage("2. Joueur vs IA");
-                vue.afficherMessage("3. IA vs IA");
-                vue.afficherMessage("404. Pour quitter");
+                vue.afficherMessage("Choisissez le mode de jeu 🥸 🥸 : ");
+                vue.afficherMessage("1. Joueur vs Joueur 🧠");
+                vue.afficherMessage("2. Joueur vs IA 🧠🤖");
+                vue.afficherMessage("3. IA vs IA 🤖");
+                vue.afficherMessage("404. Pour quitter 🪦");
                 choice = scanner.nextInt();
                 if (choice == 404) {
-                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    vue.afficherMessage("Partie terminée par l'utilisateur. 🫵");
                     System.exit(0);
                 }
 
@@ -61,7 +61,7 @@ public class InteractionUtilisateur {
                     vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3.");
                 }
             } catch (InputMismatchException e) {
-                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre. 🤯");
                 scanner.next();
             }
         }
