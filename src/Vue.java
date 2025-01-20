@@ -3,7 +3,7 @@ public class Vue {
         System.out.println(message);
     }
 
-    public void display(Cell[][] board, int size) {
+    protected void display(Cell[][] board, int size) {
         StringBuilder representation = new StringBuilder();
         for (int i = 0; i < size - 1; i++) {
             representation.append("---".repeat(size)).append("-\n");

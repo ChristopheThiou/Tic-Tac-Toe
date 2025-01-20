@@ -30,7 +30,7 @@ public class InteractionUtilisateur {
                 if (game.isValidMove(row, col)) {
                     break;
                 } else {
-                    vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer.");
+                    vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");

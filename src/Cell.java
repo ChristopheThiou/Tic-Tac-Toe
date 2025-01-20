@@ -18,7 +18,7 @@ public class Cell {
         return owner;
     }
 
-    public String getRepresentation() {
+    protected String getRepresentation() {
         if (owner == null) {
             return "|   ";
         } else {

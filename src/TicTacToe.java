@@ -66,9 +66,7 @@ public class TicTacToe {
     protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
-        } else {
-            throw new IllegalArgumentException("Invalid cell coordinates 💩");
-        }
+        } 
     }
 
     protected boolean isBoardFull() {

@@ -5,25 +5,25 @@ public class Player {
     protected String name;
     protected boolean isArtificial;
 
-    public Player(String symbol, String name, boolean isArtificial) {
+    protected Player(String symbol, String name, boolean isArtificial) {
         this.symbol = symbol;
         this.name = name;
         this.isArtificial = isArtificial;
     }
 
-    public String getSymbol() {
+    protected String getSymbol() {
         return symbol;
     }
 
-    public String getName() {
+    protected String getName() {
         return name;
     }
 
-    public boolean isArtificial() {
+    protected boolean isArtificial() {
         return isArtificial;
     }
 
-    public int[] getMove(TicTacToe game) {
+    protected int[] getMove(TicTacToe game) {
         int[] move;
         if (isArtificial) {
             move = generateRandomPosition(game);
