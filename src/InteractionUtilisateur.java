@@ -11,7 +11,7 @@ public class InteractionUtilisateur {
     }
 
     protected int[] getMoveFromPlayer(Player player, TicTacToe game) {
-        int row = -1, col = -1;
+        int row = 0, col = 0;
         while (true) {
             try {
                 vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2) ou 404 pour quitter: ");
@@ -41,7 +41,7 @@ public class InteractionUtilisateur {
     }
 
     protected int getGameMode() {
-        int choice = -1;
+        int choice = 0;
         while (true) {
             try {
                 vue.afficherMessage("Choisissez le mode de jeu: ");
