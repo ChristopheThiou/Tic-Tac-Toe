@@ -1,47 +1,53 @@
 import java.util.Random;
 
 public class Player {
-    protected String symbol;
-    protected String name;
-    protected boolean isArtificial;
+    private String symbol;
+    private String name;
+    private boolean isArtificial;
 
-    protected Player(String symbol, String name, boolean isArtificial) {
+    public Player(String symbol, String name, boolean isArtificial) {
         this.symbol = symbol;
         this.name = name;
         this.isArtificial = isArtificial;
     }
 
-    protected String getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected boolean isArtificial() {
+    public boolean isArtificial() {
         return isArtificial;
     }
 
-    protected int[] getMove(TicTacToe game) {
-        int[] move;
+    protected int[] getMove(BoardGame game) {
         if (isArtificial) {
-            move = generateRandomPosition(game);
+            return generateRandomPosition(game);
         } else {
-            move = game.interactionUtilisateur.getMoveFromPlayer(this, game);
+            return game.interactionUtilisateur.getMoveFromPlayer(this, game);
         }
-        return move;
     }
 
-    private int[] generateRandomPosition(TicTacToe game) {
+    private int[] generateRandomPosition(BoardGame game) {
         Random random = new Random();
         int row, col;
-        do {
-            row = random.nextInt(game.size - 1);
-            col = random.nextInt(game.size - 1);
-        } while (!game.isValidMove(row, col));
-
-        return new int[]{row, col};
-        
-    } 
+        if (game instanceof TicTacToe) {
+            TicTacToe ticTacToe = (TicTacToe) game;
+            do {
+                row = random.nextInt(ticTacToe.row);
+                col = random.nextInt(ticTacToe.col);
+            } while (!ticTacToe.isValidMove(row, col));
+            return new int[]{row, col};
+        } else if (game instanceof PuissanceQuatre) {
+            PuissanceQuatre puissanceQuatre = (PuissanceQuatre) game;
+            do {
+                col = random.nextInt(puissanceQuatre.col);
+            } while (!puissanceQuatre.isValidMove(0, col));
+            return new int[]{0, col}; // Ajout de 0 pour la ligne
+        }
+        return null;
+    }
 }

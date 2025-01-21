@@ -1,27 +1,28 @@
-public class TicTacToe {
+public class TicTacToe extends BoardGame  {
     public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
+        ticTacToe.vue.afficherMessage("Bienvenue dans le jeu TicTacToe!");
         ticTacToe.gameMode();
     }
 
-    protected final int size = 4;
+    protected final int col = 3;
+    protected final int row = 3;
     protected Cell[][] board;
     protected InteractionUtilisateur interactionUtilisateur;
-    protected Vue vue;
     Player player1;
     Player player2;
 
     protected TicTacToe() {
-        board = new Cell[size][size];
+        super();
+        board = new Cell[row][col];
         interactionUtilisateur = new InteractionUtilisateur();
-        vue = new Vue();
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+        for (int i = 0; i < row ; i++) {
+            for (int j = 0; j < col ; j++) {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player("| X ", "Joueur 1", false);
-        player2 = new Player("| O ", "Joueur 2", false);
+        player1 = new Player("| ❌ ", "Joueur 1", false);
+        player2 = new Player("| ⭕ ", "Joueur 2", false);
     }
 
     protected void play() {
@@ -32,35 +33,33 @@ public class TicTacToe {
         Player currentPlayer = player1;
         while (true) {
 
-            vue.display(board, size);
+            vue.display(board);
 
             int[] move = currentPlayer.getMove(this);
             setOwner(move[0], move[1], currentPlayer);
             vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
-            if (isBoardFull()) {
-                vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
-                break;
-            }
-
             if (isOver()) {
-                vue.display(board, size);
+                vue.display(board);
                 vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné! 🔆👌");
                 break;
             }
 
+            if (isBoardFull()) {
+                vue.display(board);
+                vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
+                break;
+            }
             currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
     }
 
-    protected boolean isValidMove(int row, int col) {
-        if (row < 0 || row >= size - 1 || col < 0 || col >= size - 1) {
+    @Override
+    public boolean isValidMove(int row, int col) {
+        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
             return false;
         }
-        if (!board[row][col].isEmpty()) {
-            return false;
-        }
-        return true;
+        return board[row][col].isEmpty();
     }
 
     protected void setOwner(int row, int col, Player player) {
@@ -70,8 +69,8 @@ public class TicTacToe {
     }
 
     protected boolean isBoardFull() {
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+        for (int i = 0; i < row ; i++) {
+            for (int j = 0; j < col ; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }
@@ -81,7 +80,7 @@ public class TicTacToe {
     }
 
     protected boolean isOver() {
-        for (int i = 0; i < size - 1; i++) {
+        for (int i = 0; i < row ; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
                 board[i][1].getOwner() == board[i][2].getOwner()) {
@@ -89,7 +88,7 @@ public class TicTacToe {
             }
         }
 
-        for (int j = 0; j < size - 1; j++) {
+        for (int j = 0; j < col ; j++) {
             if (board[0][j].getOwner() != null &&
                 board[0][j].getOwner() == board[1][j].getOwner() &&
                 board[1][j].getOwner() == board[2][j].getOwner()) {
@@ -97,8 +96,8 @@ public class TicTacToe {
             }
         }
 
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+        for (int i = 0; i < row ; i++) {
+            for (int j = 0; j < col ; j++) {
                 if (board[0][0].getOwner() != null &&
                     board[0][0].getOwner() == board[1][1].getOwner() &&
                     board[1][1].getOwner() == board[2][2].getOwner()) {
@@ -122,12 +121,12 @@ public class TicTacToe {
                 play();
                 break;
             case 2:
-                player2 = new Player("| O ", "AI", true);
+                player2 = new Player("| ⭕ ", "AI", true);
                 play();
                 break;
             case 3:
-                player1 = new Player("| X ", "AI 1", true);
-                player2 = new Player("| O ", "AI 2", true);
+                player1 = new Player("| ❌ ", "AI 1", true);
+                player2 = new Player("| ⭕ ", "AI 2", true);
                 play();
                 break;
             default:

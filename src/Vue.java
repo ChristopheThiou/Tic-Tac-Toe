@@ -3,16 +3,19 @@ public class Vue {
         System.out.println(message);
     }
 
-    protected void display(Cell[][] board, int size) {
+    protected void display(Cell[][] board) {
         StringBuilder representation = new StringBuilder();
-        for (int i = 0; i < size - 1; i++) {
-            representation.append("---".repeat(size)).append("-\n");
-            for (int j = 0; j < size - 1; j++) {
+        int rows = board.length;
+        int cols = board[0].length;
+
+        for (int i = 0; i < rows; i++) {
+            representation.append("-----".repeat(cols)).append("-\n");
+            for (int j = 0; j < cols; j++) {
                 representation.append(board[i][j].getRepresentation());
             }
             representation.append("|\n");
         }
-        representation.append("---".repeat(size)).append("-\n");
+        representation.append("-----".repeat(cols)).append("-\n");
 
         afficherMessage(representation.toString());
     }

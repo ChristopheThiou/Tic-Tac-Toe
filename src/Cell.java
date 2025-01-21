@@ -1,13 +1,12 @@
 public class Cell {
     private Player owner;
-    private Player player = null;
 
     protected Cell() {
-        this.owner = player;
+        this.owner = null;
     }
 
     protected boolean isEmpty() {
-        return owner == player;
+        return owner == null;
     }
 
     protected void setOwner(Player owner) {
@@ -18,11 +17,7 @@ public class Cell {
         return owner;
     }
 
-    protected String getRepresentation() {
-        if (owner == null) {
-            return "|   ";
-        } else {
-            return owner.getSymbol();
-        }
+    public String getRepresentation() {
+        return (owner == null) ? "|    " : owner.getSymbol();
     }
 }
