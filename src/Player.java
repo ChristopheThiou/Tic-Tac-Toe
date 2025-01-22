@@ -47,6 +47,13 @@ public class Player {
                 col = random.nextInt(puissanceQuatre.col);
             } while (!puissanceQuatre.isValidMove(0, col));
             return new int[]{0, col}; // Ajout de 0 pour la ligne
+        } else if (game instanceof Gomoku) {
+            Gomoku gomoku = (Gomoku) game;
+            do {
+                row = random.nextInt(gomoku.row);
+                col = random.nextInt(gomoku.col);
+            } while (!gomoku.isValidMove(row, col));
+            return new int[]{row, col};
         }
         return null;
     }

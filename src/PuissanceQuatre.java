@@ -13,7 +13,6 @@ public class PuissanceQuatre extends BoardGame {
     Player player2;
 
     protected PuissanceQuatre() {
-        super();
         board = new Cell[row][col];
         interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row; i++) {
@@ -25,7 +24,12 @@ public class PuissanceQuatre extends BoardGame {
         player2 = new Player("| 🟡 ", "Joueur 2", false);
     }
 
+    @Override
     public void play() {
+        vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
+        vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");
+        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
+
         boolean gameOver = false;
         Player currentPlayer = player1;
 
@@ -127,7 +131,8 @@ public class PuissanceQuatre extends BoardGame {
         return true;
     }
 
-    protected void gameMode() {
+    @Override
+    public void gameMode() {
         int choice = interactionUtilisateur.getGameMode();
         switch (choice) {
             case 1:

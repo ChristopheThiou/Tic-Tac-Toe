@@ -47,6 +47,24 @@ public class InteractionUtilisateur {
                     } else {
                         vue.afficherMessage("Mouvement invalide. La colonne est pleine ou hors des limites. Veuillez réessayer. 💩");
                     }
+                } else if (game instanceof Gomoku) {
+                    vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 14) ou 404 pour quitter: ");
+                    row = scanner.nextInt();
+                    if (row == 404) {
+                        vue.afficherMessage("Partie terminée par l'utilisateur.");
+                        System.exit(0);
+                    }
+                    vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 14) ou 404 pour quitter: ");
+                    col = scanner.nextInt();
+                    if (col == 404) {
+                        vue.afficherMessage("Partie terminée par l'utilisateur.");
+                        System.exit(0);
+                    }
+                    if (game.isValidMove(row, col)) {
+                        break;
+                    } else {
+                        vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
+                    }
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
@@ -82,5 +100,31 @@ public class InteractionUtilisateur {
             }
         }
         return choice;
+    }
+
+    public int getGameChoice() {
+        int gameChoice = 0;
+        vue.afficherMessage("Choisissez le jeu à lancer :");
+        vue.afficherMessage("1. TicTacToe");
+        vue.afficherMessage("2. PuissanceQuatre");
+        vue.afficherMessage("3. Gomoku");
+        while (true) {
+            try {
+                gameChoice = scanner.nextInt();
+                if (gameChoice == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur. 🫵");
+                    System.exit(0);
+                }
+                if (gameChoice >= 1 && gameChoice <= 3) {
+                    break;
+                } else {
+                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3.");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                scanner.next();
+            }
+        }
+        return gameChoice;
     }
 }
