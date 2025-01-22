@@ -9,9 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 
 
-
-public class TicTacToe extends BoardGame  {
-
+public class TicTacToe extends BoardGame {
     public final int col = 3;
     public final int row = 3;
     public Cell[][] board;
@@ -21,8 +19,8 @@ public class TicTacToe extends BoardGame  {
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur);
         board = new Cell[row][col];
-        for (int i = 0; i < row ; i++) {
-            for (int j = 0; j < col ; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -38,7 +36,6 @@ public class TicTacToe extends BoardGame  {
 
         Player currentPlayer = player1;
         while (true) {
-
             vue.display(board);
 
             int[] move = currentPlayer.getMove(this);
@@ -71,12 +68,12 @@ public class TicTacToe extends BoardGame  {
     protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
-        } 
+        }
     }
 
     protected boolean isBoardFull() {
-        for (int i = 0; i < row ; i++) {
-            for (int j = 0; j < col ; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }

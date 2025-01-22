@@ -9,20 +9,13 @@ import java.util.InputMismatchException;
 import java.util.Random;
 
 
-
 public class PuissanceQuatre extends BoardGame {
-
-    public final int row = 6;
-    public final int col = 7;
-    public Cell[][] board;
-
-    Player player1;
-    Player player2;
+    private final int row = 6;
+    private final int col = 7;
+    private final Cell[][] board = new Cell[row][col];
 
     public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur);
-        board = new Cell[row][col];
-        interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 board[i][j] = new Cell();
@@ -57,8 +50,13 @@ public class PuissanceQuatre extends BoardGame {
                 } else {
                     currentPlayer = (currentPlayer == player1) ? player2 : player1;
                 }
-            } 
+            }
         }
+    }
+
+    @Override
+    public boolean isValidMove(int row, int col) {
+        return col >= 0 && col < this.col && board[0][col].isEmpty();
     }
 
     private boolean placerJeton(Player player, int col) {
@@ -74,8 +72,6 @@ public class PuissanceQuatre extends BoardGame {
                 return true;
             }
         }
-
-        System.out.println("Colonne pleine : " + col + ". ou hors limites impossible de placer le jeton.");
         return false;
     }
 
@@ -129,11 +125,9 @@ public class PuissanceQuatre extends BoardGame {
     }
 
     private boolean isBoardFull() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (board[i][j].isEmpty()) {
-                    return false;
-                }
+        for (int i = 0; i < col; i++) {
+            if (board[0][i].isEmpty()) {
+                return false;
             }
         }
         return true;
@@ -156,17 +150,9 @@ public class PuissanceQuatre extends BoardGame {
                 play();
                 break;
             default:
-                vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
+                vue.afficherMessage("Choix de mode de jeu invalide. Veuillez réessayer. 👺");
                 gameMode();
         }
-    }
-
-    @Override
-    public boolean isValidMove(int row, int col) {
-        if (col < 0 || col >= this.col) {
-            return false;
-        }
-        return board[0][col].isEmpty();
     }
 
     @Override

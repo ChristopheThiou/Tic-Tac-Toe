@@ -9,10 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 
 
-
 public class Gomoku extends BoardGame {
-
-
     public final int row = 15;
     public final int col = 15;
     public Cell[][] board;
@@ -22,7 +19,6 @@ public class Gomoku extends BoardGame {
     public Gomoku(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur);
         board = new Cell[row][col];
-        interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 board[i][j] = new Cell();
@@ -40,7 +36,6 @@ public class Gomoku extends BoardGame {
 
         Player currentPlayer = player1;
         while (true) {
-
             vue.display(board);
 
             int[] move = currentPlayer.getMove(this);
@@ -62,15 +57,23 @@ public class Gomoku extends BoardGame {
         }
     }
 
+    @Override
+    public boolean isValidMove(int row, int col) {
+        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
+            return false;
+        }
+        return board[row][col].isEmpty();
+    }
+
     protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
-        } 
+        }
     }
 
     protected boolean isBoardFull() {
-        for (int i = 0; i < row ; i++) {
-            for (int j = 0; j < col ; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }
@@ -80,7 +83,6 @@ public class Gomoku extends BoardGame {
     }
 
     protected boolean isOver() {
-
         for (int i = 0; i < row; i++) {
             for (int j = 0; j <= col - 5; j++) {
                 if (board[i][j].getOwner() != null &&
@@ -160,14 +162,6 @@ public class Gomoku extends BoardGame {
                 vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
                 gameMode();
         }
-    }
-
-    @Override
-    public boolean isValidMove(int row, int col) {
-        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
-            return false;
-        }
-        return board[row][col].isEmpty();
     }
 
     @Override
