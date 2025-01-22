@@ -1,13 +1,10 @@
 package Main;
 
-import Main.GomokuGame.Gomoku;
-import Main.PuissanceQuatreGame.PuissanceQuatre;
-import Main.TicTacToeGame.TicTacToe;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
-    protected Scanner scanner;
+    public Scanner scanner;
     protected Vue vue;
 
     public InteractionUtilisateur() {
@@ -16,66 +13,7 @@ public class InteractionUtilisateur {
     }
 
     public int[] getMoveFromPlayer(Player player, BoardGame game) {
-        int row = 0, col = 0;
-        while (true) {
-            try {
-                if (game instanceof TicTacToe) {
-                    vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2) ou 404 pour quitter: ");
-                    row = scanner.nextInt();
-                    if (row == 404) {
-                        vue.afficherMessage("Partie terminée par l'utilisateur.");
-                        System.exit(0);
-                    }
-                    vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2) ou 404 pour quitter: ");
-                    col = scanner.nextInt();
-                    if (col == 404) {
-                        vue.afficherMessage("Partie terminée par l'utilisateur.");
-                        System.exit(0);
-                    }
-
-                    if (game.isValidMove(row, col)) {
-                        break;
-                    } else {
-                        vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
-                    }
-                } else if (game instanceof PuissanceQuatre) {
-                    vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 6) ou 404 pour quitter: ");
-                    col = scanner.nextInt();
-                    if (col == 404) {
-                        vue.afficherMessage("Partie terminée par l'utilisateur.");
-                        System.exit(0);
-                    }
-
-                    if (game.isValidMove(0, col)) {
-                        break;
-                    } else {
-                        vue.afficherMessage("Mouvement invalide. La colonne est pleine ou hors des limites. Veuillez réessayer. 💩");
-                    }
-                } else if (game instanceof Gomoku) {
-                    vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 14) ou 404 pour quitter: ");
-                    row = scanner.nextInt();
-                    if (row == 404) {
-                        vue.afficherMessage("Partie terminée par l'utilisateur.");
-                        System.exit(0);
-                    }
-                    vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 14) ou 404 pour quitter: ");
-                    col = scanner.nextInt();
-                    if (col == 404) {
-                        vue.afficherMessage("Partie terminée par l'utilisateur.");
-                        System.exit(0);
-                    }
-                    if (game.isValidMove(row, col)) {
-                        break;
-                    } else {
-                        vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
-                    }
-                }
-            } catch (InputMismatchException e) {
-                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
-                scanner.next();
-            }
-        }
-        return new int[]{row, col};
+        return game.getMoveFromPlayer(player);
     }
 
     public int getGameMode() {

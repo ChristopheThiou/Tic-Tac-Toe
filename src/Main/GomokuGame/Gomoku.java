@@ -5,6 +5,10 @@ import Main.Cell;
 import Main.InteractionUtilisateur;
 import Main.Player;
 import Main.Vue;
+import java.util.InputMismatchException;
+import java.util.Random;
+
+
 
 public class Gomoku extends BoardGame {
 
@@ -28,6 +32,7 @@ public class Gomoku extends BoardGame {
         player2 = new Player("| 🟤 ", "Joueur 2", false);
     }
 
+    @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Gomoku! 🤗");
         vue.afficherMessage("Joueur 1 avec ⚪ et Joueur 2 avec 🟤");
@@ -163,5 +168,47 @@ public class Gomoku extends BoardGame {
             return false;
         }
         return board[row][col].isEmpty();
+    }
+
+    @Override
+    public int[] generateRandomPosition() {
+        Random random = new Random();
+        int row, col;
+        do {
+            row = random.nextInt(15);
+            col = random.nextInt(15);
+        } while (!isValidMove(row, col));
+        return new int[]{row, col};
+    }
+
+    @Override
+    public int[] getMoveFromPlayer(Player player) {
+        int row = 0, col = 0;
+        while (true) {
+            try {
+                vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 14) ou 404 pour quitter: ");
+                row = interactionUtilisateur.scanner.nextInt();
+                if (row == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 14) ou 404 pour quitter: ");
+                col = interactionUtilisateur.scanner.nextInt();
+                if (col == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+
+                if (isValidMove(row, col)) {
+                    break;
+                } else {
+                    vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                interactionUtilisateur.scanner.next();
+            }
+        }
+        return new int[]{row, col};
     }
 }

@@ -5,6 +5,10 @@ import Main.Cell;
 import Main.InteractionUtilisateur;
 import Main.Player;
 import Main.Vue;
+import java.util.InputMismatchException;
+import java.util.Random;
+
+
 
 public class PuissanceQuatre extends BoardGame {
 
@@ -28,6 +32,7 @@ public class PuissanceQuatre extends BoardGame {
         player2 = new Player("| 🟡 ", "Joueur 2", false);
     }
 
+    @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
         vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");
@@ -164,4 +169,38 @@ public class PuissanceQuatre extends BoardGame {
         return board[0][col].isEmpty();
     }
 
+    @Override
+    public int[] generateRandomPosition() {
+        Random random = new Random();
+        int col;
+        do {
+            col = random.nextInt(7);
+        } while (!isValidMove(0, col));
+        return new int[]{0, col};
+    }
+
+    @Override
+    public int[] getMoveFromPlayer(Player player) {
+        int col = 0;
+        while (true) {
+            try {
+                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 6) ou 404 pour quitter: ");
+                col = interactionUtilisateur.scanner.nextInt();
+                if (col == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+
+                if (isValidMove(0, col)) {
+                    break;
+                } else {
+                    vue.afficherMessage("Mouvement invalide. La colonne est pleine ou hors des limites. Veuillez réessayer. 💩");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                interactionUtilisateur.scanner.next();
+            }
+        }
+        return new int[]{0, col};
+    }
 }
