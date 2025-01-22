@@ -1,19 +1,21 @@
+package Main;
+
 public class Cell {
     private Player owner;
 
-    protected Cell() {
+    public Cell() {
         this.owner = null;
     }
 
-    protected boolean isEmpty() {
+    public boolean isEmpty() {
         return owner == null;
     }
 
-    protected void setOwner(Player owner) {
+    public void setOwner(Player owner) {
         this.owner = owner;
     }
 
-    protected Object getOwner() {
+    public Object getOwner() {
         return owner;
     }
 

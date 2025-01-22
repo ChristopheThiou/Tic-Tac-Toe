@@ -1,4 +1,10 @@
+package Main;
+
+import Main.GomokuGame.Gomoku;
+import Main.PuissanceQuatreGame.PuissanceQuatre;
+import Main.TicTacToeGame.TicTacToe;
 import java.util.Random;
+
 
 public class Player {
     private String symbol;
@@ -23,7 +29,7 @@ public class Player {
         return isArtificial;
     }
 
-    protected int[] getMove(BoardGame game) {
+    public int[] getMove(BoardGame game) {
         if (isArtificial) {
             return generateRandomPosition(game);
         } else {

@@ -1,9 +1,12 @@
+package Main;
+
+
 public class Vue {
     public void afficherMessage(String message) {
         System.out.println(message);
     }
 
-    protected void display(Cell[][] board) {
+    public void display(Cell[][] board) {
         StringBuilder representation = new StringBuilder();
         int rows = board.length;
         int cols = board[0].length;

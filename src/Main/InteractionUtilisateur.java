@@ -1,12 +1,16 @@
+package Main;
+
+import Main.GomokuGame.Gomoku;
+import Main.PuissanceQuatreGame.PuissanceQuatre;
+import Main.TicTacToeGame.TicTacToe;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 
 public class InteractionUtilisateur {
     protected Scanner scanner;
     protected Vue vue;
 
-    protected InteractionUtilisateur() {
+    public InteractionUtilisateur() {
         scanner = new Scanner(System.in);
         vue = new Vue();
     }
@@ -74,7 +78,7 @@ public class InteractionUtilisateur {
         return new int[]{row, col};
     }
 
-    protected int getGameMode() {
+    public int getGameMode() {
         int choice = 0;
         while (true) {
             try {
@@ -105,9 +109,10 @@ public class InteractionUtilisateur {
     public int getGameChoice() {
         int gameChoice = 0;
         vue.afficherMessage("Choisissez le jeu à lancer :");
-        vue.afficherMessage("1. TicTacToe");
-        vue.afficherMessage("2. PuissanceQuatre");
-        vue.afficherMessage("3. Gomoku");
+        vue.afficherMessage("1. TicTacToe 🍜");
+        vue.afficherMessage("2. PuissanceQuatre 🍛");
+        vue.afficherMessage("3. Gomoku 🍱");
+        vue.afficherMessage("404. Pour quitter 🪦");
         while (true) {
             try {
                 gameChoice = scanner.nextInt();

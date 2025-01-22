@@ -1,20 +1,22 @@
-public class TicTacToe extends BoardGame  {
-    public static void main(String[] args) {
-        TicTacToe ticTacToe = new TicTacToe();
-        ticTacToe.vue.afficherMessage("Bienvenue dans le jeu TicTacToe!");
-        ticTacToe.gameMode();
-    }
+package Main.TicTacToeGame;
 
-    protected final int col = 3;
-    protected final int row = 3;
-    protected Cell[][] board;
-    protected InteractionUtilisateur interactionUtilisateur;
+import Main.BoardGame;
+import Main.Cell;
+import Main.InteractionUtilisateur;
+import Main.Player;
+import Main.Vue;
+
+public class TicTacToe extends BoardGame  {
+
+    public final int col = 3;
+    public final int row = 3;
+    public Cell[][] board;
     Player player1;
     Player player2;
 
-    protected TicTacToe() {
+    public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
+        super(vue, interactionUtilisateur);
         board = new Cell[row][col];
-        interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row ; i++) {
             for (int j = 0; j < col ; j++) {
                 board[i][j] = new Cell();
@@ -24,10 +26,9 @@ public class TicTacToe extends BoardGame  {
         player2 = new Player("| ⭕ ", "Joueur 2", false);
     }
 
-    @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe! 🤗");
-        vue.afficherMessage("Joueur 1 avec X et Joueur 2 avec O");
+        vue.afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
         vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
 
         Player currentPlayer = player1;

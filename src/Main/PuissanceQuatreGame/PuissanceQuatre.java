@@ -1,18 +1,22 @@
-public class PuissanceQuatre extends BoardGame {
-    public static void main(String[] args) {
-        PuissanceQuatre p4 = new PuissanceQuatre();
-        p4.vue.afficherMessage("Bienvenue dans le jeu Puissance Quatre!");
-        p4.gameMode();
-    }
+package Main.PuissanceQuatreGame;
 
-    protected final int row = 6;
-    protected final int col = 7;
-    protected Cell[][] board;
-    protected InteractionUtilisateur interactionUtilisateur;
+import Main.BoardGame;
+import Main.Cell;
+import Main.InteractionUtilisateur;
+import Main.Player;
+import Main.Vue;
+
+public class PuissanceQuatre extends BoardGame {
+
+    public final int row = 6;
+    public final int col = 7;
+    public Cell[][] board;
+
     Player player1;
     Player player2;
 
-    protected PuissanceQuatre() {
+    public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
+        super(vue, interactionUtilisateur);
         board = new Cell[row][col];
         interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row; i++) {
@@ -24,7 +28,6 @@ public class PuissanceQuatre extends BoardGame {
         player2 = new Player("| 🟡 ", "Joueur 2", false);
     }
 
-    @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
         vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");

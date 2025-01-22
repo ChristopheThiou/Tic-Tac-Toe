@@ -1,18 +1,22 @@
-public class Gomoku extends BoardGame {
-    public static void main(String[] args) {
-        Gomoku gomoku = new Gomoku();
-        System.out.println("Bienvenue dans le jeu Gomoku!");
-        gomoku.gameMode();
-    }
+package Main.GomokuGame;
 
-    protected final int row = 15;
-    protected final int col = 15;
-    protected Cell[][] board;
-    protected InteractionUtilisateur interactionUtilisateur;
+import Main.BoardGame;
+import Main.Cell;
+import Main.InteractionUtilisateur;
+import Main.Player;
+import Main.Vue;
+
+public class Gomoku extends BoardGame {
+
+
+    public final int row = 15;
+    public final int col = 15;
+    public Cell[][] board;
     Player player1;
     Player player2;
 
-    protected Gomoku() {
+    public Gomoku(Vue vue, InteractionUtilisateur interactionUtilisateur) {
+        super(vue, interactionUtilisateur);
         board = new Cell[row][col];
         interactionUtilisateur = new InteractionUtilisateur();
         for (int i = 0; i < row; i++) {
@@ -24,8 +28,6 @@ public class Gomoku extends BoardGame {
         player2 = new Player("| 🟤 ", "Joueur 2", false);
     }
 
-
-    @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Gomoku! 🤗");
         vue.afficherMessage("Joueur 1 avec ⚪ et Joueur 2 avec 🟤");
