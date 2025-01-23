@@ -30,11 +30,14 @@ public class TicTacToe extends BoardGame {
         vue.afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
         vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
 
-        Player currentPlayer = player1;
+        Random random = new Random();
+        Player currentPlayer = random.nextBoolean() ? player1 : player2;
+        vue.afficherMessage(currentPlayer.getName() + " commence en premier!");
+
         while (true) {
             vue.display(board);
 
-            int[] move = currentPlayer.getMove(this);
+            int[] move = currentPlayer.isArtificial() ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
             setOwner(move[0], move[1], currentPlayer);
             vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
@@ -113,27 +116,31 @@ public class TicTacToe extends BoardGame {
         return false;
 }
 
-    @Override
-    public void gameMode() {
-        int choice = interactionUtilisateur.getGameMode();
-        switch (choice) {
-            case 1:
-                play();
-                break;
-            case 2:
-                player2 = new Player("| ⭕ ", "AI", true);
-                play();
-                break;
-            case 3:
-                player1 = new Player("| ❌ ", "AI 1", true);
-                player2 = new Player("| ⭕ ", "AI 2", true);
-                play();
-                break;
-            default:
-                vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
-                gameMode();
-        }
+@Override
+public void gameMode() {
+    int choice = interactionUtilisateur.getGameMode();
+    int difficulty = 1; 
+
+    switch (choice) {
+        case 1:
+            play();
+            break;
+        case 2:
+            difficulty = interactionUtilisateur.getDifficultyLevel();
+            player2 = new Player("| ⭕ ", "AI", true, difficulty);
+            play();
+            break;
+        case 3:
+            difficulty = interactionUtilisateur.getDifficultyLevel();
+            player1 = new Player("| ❌ ", "AI 1", true, difficulty);
+            player2 = new Player("| ⭕ ", "AI 2", true, difficulty);
+            play();
+            break;
+        default:
+            vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
+            gameMode();
     }
+}
 
     @Override
     public int[] generateRandomPosition() {
@@ -175,5 +182,93 @@ public class TicTacToe extends BoardGame {
             }
         }
         return new int[]{row, col};
+    }
+
+    public int[] getMoveFromAI(Player player) {
+        int difficulty = player.getDifficultyLevel();
+        switch (difficulty) {
+            case 1:
+                return generateRandomPosition();
+            case 2:
+                return getBlockingMove();
+            case 3:
+                return getBestMove();
+            default:
+                return generateRandomPosition();
+        }
+    }
+
+    private int[] getBlockingMove() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (isValidMove(i, j)) {
+                    board[i][j].setOwner(player1);
+                    if (isOver()) {
+                        board[i][j].setOwner(null);
+                        return new int[]{i, j};
+                    }
+                    board[i][j].setOwner(null);
+                }
+            }
+        }
+        return generateRandomPosition();
+    }
+
+    private int[] getBestMove() {
+        int bestScore = Integer.MIN_VALUE;
+        int[] bestMove = new int[2];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (isValidMove(i, j)) {
+                    board[i][j].setOwner(player2);
+                    int score = minimax(board, 0, false);
+                    board[i][j].setOwner(null);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove[0] = i;
+                        bestMove[1] = j;
+                    }
+                }
+            }
+        }
+        return bestMove;
+    }
+
+    private int minimax(Cell[][] board, int depth, boolean isMaximizing) {
+        if (isOver()) {
+            return isMaximizing ? -1 : 1;
+        }
+        if (isBoardFull()) {
+            return 0;
+        }
+
+        if (isMaximizing) {
+            int bestScore = Integer.MIN_VALUE;
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (isValidMove(i, j)) {
+                        board[i][j].setOwner(player2);
+                        int score = minimax(board, depth + 1, false);
+                        board[i][j].setOwner(null);
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+            }
+            return bestScore;
+        } else {
+            int bestScore = Integer.MAX_VALUE;
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (isValidMove(i, j)) {
+                        board[i][j].setOwner(player1);
+                        int score = minimax(board, depth + 1, true);
+                        board[i][j].setOwner(null);
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+            }
+            return bestScore;
+        }
     }
 }

@@ -5,11 +5,17 @@ public class Player {
     private String symbol;
     private String name;
     private boolean isArtificial;
+    public int difficultyLevel;
 
     public Player(String symbol, String name, boolean isArtificial) {
+        this(symbol, name, isArtificial, 1);
+    }
+
+    public Player(String symbol, String name, boolean isArtificial, int difficultyLevel) {
         this.symbol = symbol;
         this.name = name;
         this.isArtificial = isArtificial;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public String getSymbol() {
@@ -34,5 +40,9 @@ public class Player {
 
     private int[] generateRandomPosition(BoardGame game) {
         return game.generateRandomPosition();
+    }
+
+    public int getDifficultyLevel() {
+        return difficultyLevel;
     }
 }

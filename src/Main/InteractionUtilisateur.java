@@ -70,4 +70,23 @@ public class InteractionUtilisateur {
         }
         return gameChoice;
     }
+
+    public int getDifficultyLevel() {
+        vue.afficherMessage("Sélectionnez le niveau de difficulté de l'IA :");
+        vue.afficherMessage("1. Facile");
+        vue.afficherMessage("2. Moyen");
+        vue.afficherMessage("3. Difficile");
+        int difficulty = 1;
+        try {
+            difficulty = scanner.nextInt();
+            if (difficulty < 1 || difficulty > 3) {
+                vue.afficherMessage("Niveau de difficulté invalide. Par défaut, le niveau Facile est sélectionné.");
+                difficulty = 1;
+            }
+        } catch (InputMismatchException e) {
+            vue.afficherMessage("Entrée invalide. Par défaut, le niveau Facile est sélectionné.");
+            scanner.next();
+        }
+        return difficulty;
+    }
 }
