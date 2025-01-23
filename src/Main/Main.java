@@ -5,11 +5,11 @@ import Main.PuissanceQuatreGame.PuissanceQuatre;
 import Main.TicTacToeGame.TicTacToe;
 
 public class Main {
-    public static void main(String[] args) {
+    public void main(String[] args) {
         game();
     }
 
-    private static void game() {
+    private void game() {
         Vue vue = new Vue();
         InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
         int gameChoice = interactionUtilisateur.getGameChoice();
@@ -26,8 +26,6 @@ public class Main {
                 gameInstance = new Gomoku(vue, interactionUtilisateur);
                 break;
             default:
-                vue.afficherMessage("Choix de jeu invalide. Veuillez réessayer. 👺");
-                game();
                 return;
         }
         gameInstance.gameMode();

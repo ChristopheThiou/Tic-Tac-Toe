@@ -10,17 +10,13 @@ import java.util.Random;
 
 
 public class Gomoku extends BoardGame {
-    public final int row = 15;
-    public final int col = 15;
     public Cell[][] board;
-    Player player1;
-    Player player2;
 
     public Gomoku(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur);
-        board = new Cell[row][col];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        super(vue, interactionUtilisateur, 15);
+        board = new Cell[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -59,7 +55,7 @@ public class Gomoku extends BoardGame {
 
     @Override
     public boolean isValidMove(int row, int col) {
-        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
+        if (row < 0 || row >= size || col < 0 || col >= size) {
             return false;
         }
         return board[row][col].isEmpty();
@@ -72,8 +68,8 @@ public class Gomoku extends BoardGame {
     }
 
     protected boolean isBoardFull() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }
@@ -83,8 +79,8 @@ public class Gomoku extends BoardGame {
     }
 
     protected boolean isOver() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j <= col - 5; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j <= size - 5; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i][j + 1].getOwner() &&
                     board[i][j + 1].getOwner() == board[i][j + 2].getOwner() &&
@@ -95,8 +91,8 @@ public class Gomoku extends BoardGame {
             }
         }
 
-        for (int j = 0; j < col; j++) {
-            for (int i = 0; i <= row - 5; i++) {
+        for (int j = 0; j < size; j++) {
+            for (int i = 0; i <= size - 5; i++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i + 1][j].getOwner() &&
                     board[i + 1][j].getOwner() == board[i + 2][j].getOwner() &&
@@ -107,8 +103,8 @@ public class Gomoku extends BoardGame {
             }
         }
 
-        for (int i = 0; i <= row - 5; i++) {
-            for (int j = 0; j <= col - 5; j++) {
+        for (int i = 0; i <= size - 5; i++) {
+            for (int j = 0; j <= size - 5; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i + 1][j + 1].getOwner() &&
                     board[i + 1][j + 1].getOwner() == board[i + 2][j + 2].getOwner() &&
@@ -119,8 +115,8 @@ public class Gomoku extends BoardGame {
             }
         }
 
-        for (int i = 0; i <= row - 5; i++) {
-            for (int j = 4; j < col; j++) {
+        for (int i = 0; i <= size - 5; i++) {
+            for (int j = 4; j < size; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i + 1][j - 1].getOwner() &&
                     board[i + 1][j - 1].getOwner() == board[i + 2][j - 2].getOwner() &&
@@ -131,8 +127,8 @@ public class Gomoku extends BoardGame {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j].getOwner() == null) {
                     return false;
                 }
@@ -169,8 +165,8 @@ public class Gomoku extends BoardGame {
         Random random = new Random();
         int row, col;
         do {
-            row = random.nextInt(15);
-            col = random.nextInt(15);
+            row = random.nextInt(size);
+            col = random.nextInt(size);
         } while (!isValidMove(row, col));
         return new int[]{row, col};
     }

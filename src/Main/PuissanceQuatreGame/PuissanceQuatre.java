@@ -10,14 +10,13 @@ import java.util.Random;
 
 
 public class PuissanceQuatre extends BoardGame {
-    private final int row = 6;
-    private final int col = 7;
-    private final Cell[][] board = new Cell[row][col];
+    public Cell[][] board;
 
     public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        super(vue, interactionUtilisateur, 7);
+        board = new Cell[6][size];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -56,16 +55,16 @@ public class PuissanceQuatre extends BoardGame {
 
     @Override
     public boolean isValidMove(int row, int col) {
-        return col >= 0 && col < this.col && board[0][col].isEmpty();
+        return col >= 0 && col < size && board[0][col].isEmpty();
     }
 
     private boolean placerJeton(Player player, int col) {
-        if (col < 0 || col >= this.col) {
+        if (col < 0 || col >= size) {
             System.out.println("Colonne hors limites : " + col);
             return false;
         }
 
-        for (int i = row - 1; i >= 0; i--) {
+        for (int i = 5; i >= 0; i--) {
             if (board[i][col].isEmpty()) {
                 board[i][col].setOwner(player);
                 System.out.println("Jeton placé en [" + i + "][" + col + "]");
@@ -76,9 +75,8 @@ public class PuissanceQuatre extends BoardGame {
     }
 
     private boolean verifierVictoire() {
-
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col - 3; j++) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < size - 3; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i][j + 1].getOwner() &&
                     board[i][j + 1].getOwner() == board[i][j + 2].getOwner() &&
@@ -88,8 +86,8 @@ public class PuissanceQuatre extends BoardGame {
             }
         }
 
-        for (int i = 0; i < row - 3; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < 6 - 3; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i + 1][j].getOwner() &&
                     board[i + 1][j].getOwner() == board[i + 2][j].getOwner() &&
@@ -99,8 +97,8 @@ public class PuissanceQuatre extends BoardGame {
             }
         }
 
-        for (int i = 0; i < row - 3; i++) {
-            for (int j = 0; j < col - 3; j++) {
+        for (int i = 0; i < 6 - 3; i++) {
+            for (int j = 0; j < size - 3; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i + 1][j + 1].getOwner() &&
                     board[i + 1][j + 1].getOwner() == board[i + 2][j + 2].getOwner() &&
@@ -110,8 +108,8 @@ public class PuissanceQuatre extends BoardGame {
             }
         }
 
-        for (int i = 3; i < row; i++) {
-            for (int j = 0; j < col - 3; j++) {
+        for (int i = 3; i < 6; i++) {
+            for (int j = 0; j < size - 3; j++) {
                 if (board[i][j].getOwner() != null &&
                     board[i][j].getOwner() == board[i - 1][j + 1].getOwner() &&
                     board[i - 1][j + 1].getOwner() == board[i - 2][j + 2].getOwner() &&
@@ -125,7 +123,7 @@ public class PuissanceQuatre extends BoardGame {
     }
 
     private boolean isBoardFull() {
-        for (int i = 0; i < col; i++) {
+        for (int i = 0; i < size; i++) {
             if (board[0][i].isEmpty()) {
                 return false;
             }
@@ -160,8 +158,8 @@ public class PuissanceQuatre extends BoardGame {
         Random random = new Random();
         int col;
         do {
-            col = random.nextInt(7);
-        } while (!isValidMove(0, col));
+            col = random.nextInt(size);
+        } while (!isValidMove(0,col));
         return new int[]{0, col};
     }
 

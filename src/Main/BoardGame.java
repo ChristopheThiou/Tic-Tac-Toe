@@ -5,10 +5,12 @@ public abstract class BoardGame {
     protected InteractionUtilisateur interactionUtilisateur;
     protected Player player1;
     protected Player player2;
+    protected int size;
 
-    protected BoardGame(Vue vue, InteractionUtilisateur interactionUtilisateur) {
+    protected BoardGame(Vue vue, InteractionUtilisateur interactionUtilisateur, int size) {
         this.vue = vue;
         this.interactionUtilisateur = interactionUtilisateur;
+        this.size = size;
     }
 
     public abstract boolean isValidMove(int row, int col);

@@ -34,7 +34,7 @@ public class InteractionUtilisateur {
                 if (choice >= 1 && choice <= 3) {
                     break;
                 } else {
-                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3.");
+                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3. 👺");
                 }
             } catch (InputMismatchException e) {
                 vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre. 🤯");
@@ -61,10 +61,10 @@ public class InteractionUtilisateur {
                 if (gameChoice >= 1 && gameChoice <= 3) {
                     break;
                 } else {
-                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3.");
+                    vue.afficherMessage("Choix invalide. Veuillez entrer un nombre entre 1 et 3. 👺");
                 }
             } catch (InputMismatchException e) {
-                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre. 🤯");
                 scanner.next();
             }
         }

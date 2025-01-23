@@ -10,17 +10,13 @@ import java.util.Random;
 
 
 public class TicTacToe extends BoardGame {
-    public final int col = 3;
-    public final int row = 3;
     public Cell[][] board;
-    Player player1;
-    Player player2;
 
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur);
-        board = new Cell[row][col];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        super(vue, interactionUtilisateur, 3);
+        board = new Cell[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -59,7 +55,7 @@ public class TicTacToe extends BoardGame {
 
     @Override
     public boolean isValidMove(int row, int col) {
-        if (row < 0 || row >= this.row || col < 0 || col >= this.col) {
+        if (row < 0 || row >= size || col < 0 || col >= size) {
             return false;
         }
         return board[row][col].isEmpty();
@@ -72,8 +68,8 @@ public class TicTacToe extends BoardGame {
     }
 
     protected boolean isBoardFull() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
                     return false;
                 }
@@ -83,7 +79,7 @@ public class TicTacToe extends BoardGame {
     }
 
     protected boolean isOver() {
-        for (int i = 0; i < row ; i++) {
+        for (int i = 0; i < size ; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
                 board[i][1].getOwner() == board[i][2].getOwner()) {
@@ -91,7 +87,7 @@ public class TicTacToe extends BoardGame {
             }
         }
 
-        for (int j = 0; j < col ; j++) {
+        for (int j = 0; j < size ; j++) {
             if (board[0][j].getOwner() != null &&
                 board[0][j].getOwner() == board[1][j].getOwner() &&
                 board[1][j].getOwner() == board[2][j].getOwner()) {
@@ -99,8 +95,8 @@ public class TicTacToe extends BoardGame {
             }
         }
 
-        for (int i = 0; i < row ; i++) {
-            for (int j = 0; j < col ; j++) {
+        for (int i = 0; i < size ; i++) {
+            for (int j = 0; j < size ; j++) {
                 if (board[0][0].getOwner() != null &&
                     board[0][0].getOwner() == board[1][1].getOwner() &&
                     board[1][1].getOwner() == board[2][2].getOwner()) {
@@ -144,8 +140,8 @@ public class TicTacToe extends BoardGame {
         Random random = new Random();
         int row, col;
         do {
-            row = random.nextInt(3);
-            col = random.nextInt(3);
+            row = random.nextInt(size);
+            col = random.nextInt(size);
         } while (!isValidMove(row, col));
         return new int[]{row, col};
     }
