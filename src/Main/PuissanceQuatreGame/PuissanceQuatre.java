@@ -63,14 +63,14 @@ public class PuissanceQuatre extends BoardGame {
 
     private boolean placerJeton(Player player, int col) {
         if (col < 0 || col >= size) {
-            System.out.println("Colonne hors limites : " + col);
+            vue.afficherMessage("Colonne hors limites : " + col);
             return false;
         }
 
         for (int i = 5; i >= 0; i--) {
             if (board[i][col].isEmpty()) {
                 board[i][col].setOwner(player);
-                System.out.println("Jeton placé en [" + i + "][" + col + "]");
+                vue.afficherMessage("Jeton placé en [" + i + "][" + col + "]");
                 return true;
             }
         }
