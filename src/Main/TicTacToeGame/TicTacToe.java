@@ -112,7 +112,6 @@ public class TicTacToe extends BoardGame {
                 }
             }
         }
-
         return false;
 }
 

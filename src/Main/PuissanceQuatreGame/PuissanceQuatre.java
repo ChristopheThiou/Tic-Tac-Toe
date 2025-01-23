@@ -121,7 +121,6 @@ public class PuissanceQuatre extends BoardGame {
                 }
             }
         }
-    
         return false;
     }
 
@@ -216,7 +215,7 @@ public class PuissanceQuatre extends BoardGame {
                 return generateRandomPosition();
         }
     }
-    
+
     private int[] getBlockingMove() {
         for (int j = 0; j < size; j++) {
             if (isValidMove(0, j)) {
@@ -227,7 +226,7 @@ public class PuissanceQuatre extends BoardGame {
         }
         return null;
     }
-    
+
     private int[] getWinningMove() {
         for (int j = 0; j < size; j++) {
             if (isValidMove(0, j)) {
@@ -238,7 +237,7 @@ public class PuissanceQuatre extends BoardGame {
         }
         return null;
     }
-    
+
     private boolean canWin(Player player, int col) {
         for (int i = 5; i >= 0; i--) {
             if (board[i][col].isEmpty()) {
@@ -252,14 +251,14 @@ public class PuissanceQuatre extends BoardGame {
         }
         return false;
     }
-    
+
     private boolean checkVictory(int row, int col, Player player) {
         return checkDirection(row, col, player, 1, 0) ||
                checkDirection(row, col, player, 0, 1) ||
                checkDirection(row, col, player, 1, 1) ||
                checkDirection(row, col, player, 1, -1); 
     }
-    
+
     private boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
         int count = 0;
         for (int i = -3; i <= 3; i++) {
@@ -276,7 +275,7 @@ public class PuissanceQuatre extends BoardGame {
         }
         return false;
     }
-    
+
     private int[] getStrategicMove() {
         for (int j = 0; j < size; j++) {
             if (isValidMove(0, j)) {
@@ -287,7 +286,7 @@ public class PuissanceQuatre extends BoardGame {
         }
         return generateRandomPosition();
     }
-    
+
     private boolean hasAdjacentToken(int row, int col) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {

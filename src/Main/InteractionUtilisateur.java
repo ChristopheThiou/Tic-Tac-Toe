@@ -72,10 +72,10 @@ public class InteractionUtilisateur {
     }
 
     public int getDifficultyLevel() {
-        vue.afficherMessage("Sélectionnez le niveau de difficulté de l'IA :");
-        vue.afficherMessage("1. Facile");
-        vue.afficherMessage("2. Moyen");
-        vue.afficherMessage("3. Difficile");
+        vue.afficherMessage("Sélectionnez le niveau de difficulté de l'IA 🤖 :");
+        vue.afficherMessage("1. Facile 🤡");
+        vue.afficherMessage("2. Moyen 🫠");
+        vue.afficherMessage("3. Difficile 💥");
         int difficulty = 1;
         try {
             difficulty = scanner.nextInt();
