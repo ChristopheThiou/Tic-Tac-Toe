@@ -5,11 +5,11 @@ import Main.PuissanceQuatreGame.PuissanceQuatre;
 import Main.TicTacToeGame.TicTacToe;
 
 public class Main {
-    public void main(String[] args) {
+    public static void main(String[] args) {
         game();
     }
 
-    private void game() {
+    private static void game() {
         Vue vue = new Vue();
         InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
         int gameChoice = interactionUtilisateur.getGameChoice();
