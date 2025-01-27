@@ -1,8 +1,10 @@
-package main;
+package main.vue;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import main.vue.Vue;
+import main.games.BoardGame;
+import main.games.Player;
+
 
 
 public class InteractionUtilisateur {

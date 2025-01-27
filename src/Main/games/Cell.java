@@ -1,6 +1,4 @@
-package main.vue;
-
-import main.Player;
+package main.games;
 
 public class Cell {
     private Player owner;

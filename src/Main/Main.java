@@ -1,8 +1,10 @@
 package main;
 
+import main.games.BoardGame;
 import main.games.Gomoku;
 import main.games.PuissanceQuatre;
 import main.games.TicTacToe;
+import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
 public class Main {

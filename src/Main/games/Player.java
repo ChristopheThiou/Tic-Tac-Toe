@@ -1,7 +1,8 @@
-package main;
+package main.games;
 
 import java.util.Random;
 import main.vue.Vue;
+
 
 
 public class Player {

@@ -1,10 +1,11 @@
-package main;
+package main.games;
 
+import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
 public abstract class BoardGame {
     protected Vue vue;
-    protected InteractionUtilisateur interactionUtilisateur;
+    public InteractionUtilisateur interactionUtilisateur;
     protected Player player1;
     protected Player player2;
     protected int size;

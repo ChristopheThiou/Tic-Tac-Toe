@@ -2,11 +2,9 @@ package main.games;
 
 import java.util.InputMismatchException;
 import java.util.Random;
-import main.BoardGame;
-import main.InteractionUtilisateur;
-import main.Player;
-import main.vue.Cell;
+import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
+
 
 
 
