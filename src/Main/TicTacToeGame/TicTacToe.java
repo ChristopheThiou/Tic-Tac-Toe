@@ -30,9 +30,7 @@ public class TicTacToe extends BoardGame {
         vue.afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
         vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
 
-        Random random = new Random();
-        Player currentPlayer = random.nextBoolean() ? player1 : player2;
-        vue.afficherMessage(currentPlayer.getName() + " commence en premier!");
+        Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
 
         while (true) {
             vue.display(board);

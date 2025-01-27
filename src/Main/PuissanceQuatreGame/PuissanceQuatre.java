@@ -32,9 +32,7 @@ public class PuissanceQuatre extends BoardGame {
 
         boolean gameOver = false;
 
-        Random random = new Random();
-        Player currentPlayer = random.nextBoolean() ? player1 : player2;
-        vue.afficherMessage(currentPlayer.getName() + " commence en premier!");
+        Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
 
         while (!gameOver) {
             vue.display(board);

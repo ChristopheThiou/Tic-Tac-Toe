@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.Random;
 
 public class Player {
     private String symbol;
@@ -44,5 +45,12 @@ public class Player {
 
     public int getDifficultyLevel() {
         return difficultyLevel;
+    }
+
+    public static Player randomizeFirstPlayer(Player player1, Player player2, Vue vue) {
+        Random random = new Random();
+        Player currentPlayer = random.nextBoolean() ? player1 : player2;
+        vue.afficherMessage(currentPlayer.getName() + " commence en premier!");
+        return currentPlayer;
     }
 }
