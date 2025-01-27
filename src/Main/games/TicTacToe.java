@@ -1,16 +1,17 @@
-package Main.TicTacToeGame;
+package main.games;
 
-import Main.BoardGame;
-import Main.Cell;
-import Main.InteractionUtilisateur;
-import Main.Player;
-import Main.Vue;
 import java.util.InputMismatchException;
 import java.util.Random;
+import main.BoardGame;
+import main.InteractionUtilisateur;
+import main.Player;
+import main.vue.Cell;
+import main.vue.Vue;
+
 
 
 public class TicTacToe extends BoardGame {
-    public Cell[][] board;
+    private Cell[][] board;
 
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur, 3);
@@ -62,13 +63,13 @@ public class TicTacToe extends BoardGame {
         return board[row][col].isEmpty();
     }
 
-    protected void setOwner(int row, int col, Player player) {
+    private void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player);
         }
     }
 
-    protected boolean isBoardFull() {
+    private boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
@@ -79,7 +80,7 @@ public class TicTacToe extends BoardGame {
         return true;
     }
 
-    protected boolean isOver() {
+    private boolean isOver() {
         for (int i = 0; i < size ; i++) {
             if (board[i][0].getOwner() != null &&
                 board[i][0].getOwner() == board[i][1].getOwner() &&
@@ -181,7 +182,7 @@ public void gameMode() {
         return new int[]{row, col};
     }
 
-    public int[] getMoveFromAI(Player player) {
+    private int[] getMoveFromAI(Player player) {
         int difficulty = player.getDifficultyLevel();
         switch (difficulty) {
             case 1:

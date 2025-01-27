@@ -1,7 +1,9 @@
-package Main;
+package main;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import main.vue.Vue;
+
 
 public class InteractionUtilisateur {
     public Scanner scanner;

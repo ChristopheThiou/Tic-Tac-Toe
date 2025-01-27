@@ -1,4 +1,6 @@
-package Main;
+package main.vue;
+
+import main.Player;
 
 public class Cell {
     private Player owner;
@@ -15,7 +17,7 @@ public class Cell {
         this.owner = owner;
     }
 
-    public Object getOwner() {
+    public Player getOwner() {
         return owner;
     }
 

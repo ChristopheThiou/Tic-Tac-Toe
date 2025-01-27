@@ -1,4 +1,6 @@
-package Main;
+package main;
+
+import main.vue.Vue;
 
 public abstract class BoardGame {
     protected Vue vue;

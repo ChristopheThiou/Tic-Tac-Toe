@@ -1,8 +1,9 @@
-package Main;
+package main;
 
-import Main.GomokuGame.Gomoku;
-import Main.PuissanceQuatreGame.PuissanceQuatre;
-import Main.TicTacToeGame.TicTacToe;
+import main.games.Gomoku;
+import main.games.PuissanceQuatre;
+import main.games.TicTacToe;
+import main.vue.Vue;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,5 +1,4 @@
-package Main;
-
+package main.vue;
 
 public class Vue {
     public void afficherMessage(String message) {

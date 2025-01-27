@@ -1,16 +1,17 @@
-package Main.PuissanceQuatreGame;
+package main.games;
 
-import Main.BoardGame;
-import Main.Cell;
-import Main.InteractionUtilisateur;
-import Main.Player;
-import Main.Vue;
 import java.util.InputMismatchException;
 import java.util.Random;
+import main.BoardGame;
+import main.InteractionUtilisateur;
+import main.Player;
+import main.vue.Cell;
+import main.vue.Vue;
+
 
 
 public class PuissanceQuatre extends BoardGame {
-    public Cell[][] board;
+    private Cell[][] board;
 
     public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur, 7);
@@ -192,7 +193,7 @@ public class PuissanceQuatre extends BoardGame {
         return new int[]{0, col};
     }
 
-    public int[] getMoveFromAI(Player player) {
+    private int[] getMoveFromAI(Player player) {
         int difficulty = player.getDifficultyLevel();
         switch (difficulty) {
             case 1:

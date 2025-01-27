@@ -1,6 +1,8 @@
-package Main;
+package main;
 
 import java.util.Random;
+import main.vue.Vue;
+
 
 public class Player {
     private String symbol;
