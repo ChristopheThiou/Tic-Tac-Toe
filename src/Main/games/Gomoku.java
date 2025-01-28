@@ -79,53 +79,67 @@ public class Gomoku extends BoardGame {
     }
 
     private boolean isOver() {
+
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j <= size - 5; j++) {
-                if (board[i][j].getOwner() != null &&
-                    board[i][j].getOwner() == board[i][j + 1].getOwner() &&
-                    board[i][j + 1].getOwner() == board[i][j + 2].getOwner() &&
-                    board[i][j + 2].getOwner() == board[i][j + 3].getOwner() &&
-                    board[i][j + 3].getOwner() == board[i][j + 4].getOwner()) {
-                    return true;
+            int count = 1;
+            for (int j = 1; j < size; j++) {
+                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i][j - 1].getOwner()) {
+                    count++;
+                    if (count == 5) {
+                        return true;
+                    }
+                } else {
+                    count = 1;
                 }
             }
         }
 
         for (int j = 0; j < size; j++) {
-            for (int i = 0; i <= size - 5; i++) {
-                if (board[i][j].getOwner() != null &&
-                    board[i][j].getOwner() == board[i + 1][j].getOwner() &&
-                    board[i + 1][j].getOwner() == board[i + 2][j].getOwner() &&
-                    board[i + 2][j].getOwner() == board[i + 3][j].getOwner() &&
-                    board[i + 3][j].getOwner() == board[i + 4][j].getOwner()) {
-                    return true;
+            int count = 1;
+            for (int i = 1; i < size; i++) {
+                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i - 1][j].getOwner()) {
+                    count++;
+                    if (count == 5) {
+                        return true;
+                    }
+                } else {
+                    count = 1;
                 }
             }
         }
 
         for (int i = 0; i <= size - 5; i++) {
             for (int j = 0; j <= size - 5; j++) {
-                if (board[i][j].getOwner() != null &&
-                    board[i][j].getOwner() == board[i + 1][j + 1].getOwner() &&
-                    board[i + 1][j + 1].getOwner() == board[i + 2][j + 2].getOwner() &&
-                    board[i + 2][j + 2].getOwner() == board[i + 3][j + 3].getOwner() &&
-                    board[i + 3][j + 3].getOwner() == board[i + 4][j + 4].getOwner()) {
-                    return true;
+                int count = 1;
+                for (int k = 1; k < 5; k++) {
+                    if (board[i + k][j + k].getOwner() != null && board[i + k][j + k].getOwner() == board[i + k - 1][j + k - 1].getOwner()) {
+                        count++;
+                        if (count == 5) {
+                            return true;
+                        }
+                    } else {
+                        count = 1;
+                    }
                 }
             }
         }
 
         for (int i = 4; i < size; i++) {
             for (int j = 0; j <= size - 5; j++) {
-                if (board[i][j].getOwner() != null &&
-                    board[i][j].getOwner() == board[i - 1][j + 1].getOwner() &&
-                    board[i - 1][j + 1].getOwner() == board[i - 2][j + 2].getOwner() &&
-                    board[i - 2][j + 2].getOwner() == board[i - 3][j + 3].getOwner() &&
-                    board[i - 3][j + 3].getOwner() == board[i - 4][j + 4].getOwner()) {
-                    return true;
+                int count = 1;
+                for (int k = 1; k < 5; k++) {
+                    if (board[i - k][j + k].getOwner() != null && board[i - k][j + k].getOwner() == board[i - k + 1][j + k - 1].getOwner()) {
+                        count++;
+                        if (count == 5) {
+                            return true;
+                        }
+                    } else {
+                        count = 1;
+                    }
                 }
             }
         }
+
         return false;
     }
 

@@ -79,38 +79,60 @@ public class TicTacToe extends BoardGame {
     }
 
     private boolean isOver() {
-        for (int i = 0; i < size ; i++) {
-            if (board[i][0].getOwner() != null &&
-                board[i][0].getOwner() == board[i][1].getOwner() &&
-                board[i][1].getOwner() == board[i][2].getOwner()) {
-                return true;
-            }
-        }
-
-        for (int j = 0; j < size ; j++) {
-            if (board[0][j].getOwner() != null &&
-                board[0][j].getOwner() == board[1][j].getOwner() &&
-                board[1][j].getOwner() == board[2][j].getOwner()) {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < size ; i++) {
-            for (int j = 0; j < size ; j++) {
-                if (board[0][0].getOwner() != null &&
-                    board[0][0].getOwner() == board[1][1].getOwner() &&
-                    board[1][1].getOwner() == board[2][2].getOwner()) {
-                    return true;
-                }
-                if (board[0][2].getOwner() != null &&
-                    board[0][2].getOwner() == board[1][1].getOwner() &&
-                    board[1][1].getOwner() == board[2][0].getOwner()) {
-                    return true;
+        for (int i = 0; i < size; i++) {
+            int count = 1;
+            for (int j = 1; j < size; j++) {
+                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i][j - 1].getOwner()) {
+                    count++;
+                    if (count == 3) {
+                        return true;
+                    }
+                } else {
+                    count = 1;
                 }
             }
         }
+
+        for (int j = 0; j < size; j++) {
+            int count = 1;
+            for (int i = 1; i < size; i++) {
+                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i - 1][j].getOwner()) {
+                    count++;
+                    if (count == 3) {
+                        return true;
+                    }
+                } else {
+                    count = 1;
+                }
+            }
+        }
+
+        int count = 1;
+        for (int i = 1; i < size; i++) {
+            if (board[i][i].getOwner() != null && board[i][i].getOwner() == board[i - 1][i - 1].getOwner()) {
+                count++;
+                if (count == 3) {
+                    return true;
+                }
+            } else {
+                count = 1;
+            }
+        }
+
+        count = 1;
+        for (int i = 1; i < size; i++) {
+            if (board[i][size - i - 1].getOwner() != null && board[i][size - i - 1].getOwner() == board[i - 1][size - i].getOwner()) {
+                count++;
+                if (count == 3) {
+                    return true;
+                }
+            } else {
+                count = 1;
+            }
+        }
+
         return false;
-}
+    }
 
 @Override
 public void gameMode() {
