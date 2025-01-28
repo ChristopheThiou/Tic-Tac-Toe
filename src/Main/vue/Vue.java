@@ -1,7 +1,5 @@
 package main.vue;
 
-import main.games.Cell;
-
 public class Vue {
     public void afficherMessage(String message) {
         System.out.println(message);

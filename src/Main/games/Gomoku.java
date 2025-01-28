@@ -2,8 +2,10 @@ package main.games;
 
 import java.util.InputMismatchException;
 import java.util.Random;
+import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
+
 
 
 public class Gomoku extends BoardGame {
@@ -17,8 +19,8 @@ public class Gomoku extends BoardGame {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player("| ⚪ ", "Joueur 1", false);
-        player2 = new Player("| 🟤 ", "Joueur 2", false);
+        player1 = new Player("| ⚪ ", "Joueur 1", false, 0);
+        player2 = new Player("| 🟤 ", "Joueur 2", false, 0);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class Gomoku extends BoardGame {
         while (true) {
             vue.display(board);
 
-            int[] move = currentPlayer.isArtificial() ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
+            int[] move = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
             setOwner(move[0], move[1], currentPlayer);
             vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
@@ -61,7 +63,7 @@ public class Gomoku extends BoardGame {
 
     private void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
-            board[row][col].setOwner(player);
+            board[row][col].setOwner(player.getSymbol());
         }
     }
 
@@ -178,7 +180,6 @@ public class Gomoku extends BoardGame {
         return new int[]{row, col};
     }
 
-    @Override
     public int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
@@ -258,7 +259,7 @@ public class Gomoku extends BoardGame {
     }
 
     private boolean canWin(Player player, int row, int col) {
-        board[row][col].setOwner(player);
+        board[row][col].setOwner(player.getSymbol());
         boolean win = checkVictory(row, col, player);
         board[row][col].setOwner(null);
         return win;
@@ -273,10 +274,11 @@ public class Gomoku extends BoardGame {
 
     private boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
         int count = 0;
+        String playerSymbol = player.getSymbol();
         for (int i = -4; i <= 4; i++) {
             int newRow = row + i * dRow;
             int newCol = col + i * dCol;
-            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner() == player) {
+            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner().equals(playerSymbol)) {
                 count++;
                 if (count == 5) {
                     return true;

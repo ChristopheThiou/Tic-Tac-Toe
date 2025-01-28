@@ -23,8 +23,4 @@ public abstract class BoardGame {
     public abstract void gameMode();
 
     public abstract int[] generateRandomPosition();
-
-    public int[] getMoveFromPlayer(Player player) {
-        return interactionUtilisateur.getMoveFromPlayer(player, this);
-    }
 }

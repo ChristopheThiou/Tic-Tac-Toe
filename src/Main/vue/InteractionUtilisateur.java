@@ -2,8 +2,6 @@ package main.vue;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import main.games.BoardGame;
-import main.games.Player;
 
 
 public class InteractionUtilisateur {
@@ -13,10 +11,6 @@ public class InteractionUtilisateur {
     public InteractionUtilisateur() {
         scanner = new Scanner(System.in);
         vue = new Vue();
-    }
-
-    public int[] getMoveFromPlayer(Player player, BoardGame game) {
-        return game.getMoveFromPlayer(player);
     }
 
     public int getGameMode() {

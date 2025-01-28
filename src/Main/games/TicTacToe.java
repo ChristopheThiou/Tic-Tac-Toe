@@ -2,8 +2,10 @@ package main.games;
 
 import java.util.InputMismatchException;
 import java.util.Random;
+import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
+
 
 
 public class TicTacToe extends BoardGame {
@@ -17,8 +19,8 @@ public class TicTacToe extends BoardGame {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player("| ❌ ", "Joueur 1", false);
-        player2 = new Player("| ⭕ ", "Joueur 2", false);
+        player1 = new Player("| ❌ ", "Joueur 1", false, 0);
+        player2 = new Player("| ⭕ ", "Joueur 2", false, 0);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class TicTacToe extends BoardGame {
         while (true) {
             vue.display(board);
 
-            int[] move = currentPlayer.isArtificial() ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
+            int[] move = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
             setOwner(move[0], move[1], currentPlayer);
             vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
@@ -61,7 +63,7 @@ public class TicTacToe extends BoardGame {
 
     private void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
-            board[row][col].setOwner(player);
+            board[row][col].setOwner(player.getSymbol());
         }
     }
 
@@ -169,7 +171,6 @@ public void gameMode() {
         return new int[]{row, col};
     }
 
-    @Override
     public int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
@@ -218,7 +219,7 @@ public void gameMode() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (isValidMove(i, j)) {
-                    board[i][j].setOwner(player1);
+                    board[i][j].setOwner(player1.getSymbol());
                     if (isOver()) {
                         board[i][j].setOwner(null);
                         return new int[]{i, j};
@@ -237,7 +238,7 @@ public void gameMode() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (isValidMove(i, j)) {
-                    board[i][j].setOwner(player2);
+                    board[i][j].setOwner(player2.getSymbol());
                     int score = minimax(board, 0, false);
                     board[i][j].setOwner(null);
                     if (score > bestScore) {
@@ -264,7 +265,7 @@ public void gameMode() {
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     if (isValidMove(i, j)) {
-                        board[i][j].setOwner(player2);
+                        board[i][j].setOwner(player2.getSymbol());
                         int score = minimax(board, depth + 1, false);
                         board[i][j].setOwner(null);
                         bestScore = Math.max(score, bestScore);
@@ -277,7 +278,7 @@ public void gameMode() {
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     if (isValidMove(i, j)) {
-                        board[i][j].setOwner(player1);
+                        board[i][j].setOwner(player1.getSymbol());
                         int score = minimax(board, depth + 1, true);
                         board[i][j].setOwner(null);
                         bestScore = Math.min(score, bestScore);

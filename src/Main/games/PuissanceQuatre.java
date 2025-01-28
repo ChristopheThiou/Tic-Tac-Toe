@@ -2,8 +2,10 @@ package main.games;
 
 import java.util.InputMismatchException;
 import java.util.Random;
+import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
+
 
 
 public class PuissanceQuatre extends BoardGame {
@@ -17,8 +19,8 @@ public class PuissanceQuatre extends BoardGame {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player("| 🔴 ", "Joueur 1", false);
-        player2 = new Player("| 🟡 ", "Joueur 2", false);
+        player1 = new Player("| 🔴 ", "Joueur 1", false, 0);
+        player2 = new Player("| 🟡 ", "Joueur 2", false, 0);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class PuissanceQuatre extends BoardGame {
 
         while (!gameOver) {
             vue.display(board);
-            int col = currentPlayer.isArtificial() ? getMoveFromAI(currentPlayer)[1] : getMoveFromPlayer(currentPlayer)[1];
+            int col = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer)[1] : getMoveFromPlayer(currentPlayer)[1];
 
             if (placerJeton(currentPlayer, col)) {
                 if (verifierVictoire()) {
@@ -64,7 +66,7 @@ public class PuissanceQuatre extends BoardGame {
 
         for (int i = 5; i >= 0; i--) {
             if (board[i][col].isEmpty()) {
-                board[i][col].setOwner(player);
+                board[i][col].setOwner(player.getSymbol());
                 vue.afficherMessage("Jeton placé en [" + i + "][" + col + "]");
                 return true;
             }
@@ -182,7 +184,6 @@ public class PuissanceQuatre extends BoardGame {
         return new int[]{0, col};
     }
 
-    @Override
     public int[] getMoveFromPlayer(Player player) {
         int col = 0;
         while (true) {
@@ -254,7 +255,7 @@ public class PuissanceQuatre extends BoardGame {
     private boolean canWin(Player player, int col) {
         for (int i = 5; i >= 0; i--) {
             if (board[i][col].isEmpty()) {
-                board[i][col].setOwner(player);
+                board[i][col].setOwner(player.getSymbol());
                 boolean win = checkVictory(i, col, player);
                 board[i][col].setOwner(null);
                 if (win) {
@@ -274,10 +275,11 @@ public class PuissanceQuatre extends BoardGame {
 
     private boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
         int count = 0;
+        String playerSymbol = player.getSymbol();
         for (int i = -3; i <= 3; i++) {
             int newRow = row + i * dRow;
             int newCol = col + i * dCol;
-            if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner() == player) {
+            if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner().equals(playerSymbol)) {
                 count++;
                 if (count == 4) {
                     return true;
