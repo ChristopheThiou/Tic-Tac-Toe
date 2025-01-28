@@ -6,7 +6,6 @@ import main.games.BoardGame;
 import main.games.Player;
 
 
-
 public class InteractionUtilisateur {
     public Scanner scanner;
     protected Vue vue;

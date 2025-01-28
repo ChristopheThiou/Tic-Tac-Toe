@@ -4,11 +4,10 @@ import java.util.Random;
 import main.vue.Vue;
 
 
-
 public class Player {
-    private String symbol;
-    private String name;
-    private boolean isArtificial;
+    private final String symbol;
+    private final String name;
+    private final boolean isArtificial;
     public int difficultyLevel;
 
     public Player(String symbol, String name, boolean isArtificial) {

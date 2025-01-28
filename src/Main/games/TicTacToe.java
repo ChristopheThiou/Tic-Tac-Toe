@@ -6,10 +6,8 @@ import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
 
-
-
 public class TicTacToe extends BoardGame {
-    private Cell[][] board;
+    private final Cell[][] board;
 
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
         super(vue, interactionUtilisateur, 3);
