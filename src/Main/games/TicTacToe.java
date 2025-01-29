@@ -8,6 +8,8 @@ import main.vue.Vue;
 
 
 
+
+
 public class TicTacToe extends BoardGame {
     private final Cell[][] board;
 
@@ -171,7 +173,7 @@ public void gameMode() {
         return new int[]{row, col};
     }
 
-    public int[] getMoveFromPlayer(Player player) {
+    private int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
             try {

@@ -5,7 +5,7 @@ import main.vue.Vue;
 
 public abstract class BoardGame {
     protected Vue vue;
-    public InteractionUtilisateur interactionUtilisateur;
+    protected InteractionUtilisateur interactionUtilisateur;
     protected Player player1;
     protected Player player2;
     protected int size;

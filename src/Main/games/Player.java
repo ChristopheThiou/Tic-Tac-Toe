@@ -7,7 +7,7 @@ import main.vue.Vue;
 public class Player {
     private final String symbol;
     private final String name;
-    public final boolean isArtificial;
+    protected final boolean isArtificial;
     private final int difficultyLevel;
 
     public Player(String symbol, String name, boolean isArtificial, int difficultyLevel) {

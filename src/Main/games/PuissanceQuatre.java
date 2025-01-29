@@ -8,6 +8,8 @@ import main.vue.Vue;
 
 
 
+
+
 public class PuissanceQuatre extends BoardGame {
     private final Cell[][] board;
 
@@ -279,13 +281,16 @@ public class PuissanceQuatre extends BoardGame {
         for (int i = -3; i <= 3; i++) {
             int newRow = row + i * dRow;
             int newCol = col + i * dCol;
-            if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner().equals(playerSymbol)) {
-                count++;
-                if (count == 4) {
-                    return true;
+            if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < size) {
+                String owner = board[newRow][newCol].getOwner();
+                if (owner != null && owner.equals(playerSymbol)) {
+                    count++;
+                    if (count == 4) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
                 }
-            } else {
-                count = 0;
             }
         }
         return false;

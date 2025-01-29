@@ -8,6 +8,8 @@ import main.vue.Vue;
 
 
 
+
+
 public class Gomoku extends BoardGame {
     private final Cell[][] board;
 
@@ -180,7 +182,7 @@ public class Gomoku extends BoardGame {
         return new int[]{row, col};
     }
 
-    public int[] getMoveFromPlayer(Player player) {
+    private int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
             try {
@@ -278,13 +280,16 @@ public class Gomoku extends BoardGame {
         for (int i = -4; i <= 4; i++) {
             int newRow = row + i * dRow;
             int newCol = col + i * dCol;
-            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size && board[newRow][newCol].getOwner().equals(playerSymbol)) {
-                count++;
-                if (count == 5) {
-                    return true;
+            if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
+                String owner = board[newRow][newCol].getOwner();
+                if (owner != null && owner.equals(playerSymbol)) {
+                    count++;
+                    if (count == 5) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
                 }
-            } else {
-                count = 0;
             }
         }
         return false;
