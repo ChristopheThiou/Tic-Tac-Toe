@@ -8,6 +8,9 @@ public class GomokuController extends GamesController {
     public GomokuController() {
         super();
         this.setBoardGame(new Gomoku(this.getVue(), this.getInteractionUtilisateur()));
+
+        getBoardGame().setPlayer1(new Player("⚪", "Joueur 1", false, 0));
+        getBoardGame().setPlayer2(new Player("🟤", "Joueur 2", false, 0));
     }
 
     @Override
@@ -51,13 +54,13 @@ public class GomokuController extends GamesController {
                 break;
             case 2:
                 difficulty = getInteractionUtilisateur().getDifficultyLevel();
-                getBoardGame().setPlayer2(new Player("| 🟤 ", "AI", true, difficulty));
+                getBoardGame().setPlayer2(new Player("🟤", "AI", true, difficulty));
                 play();
                 break;
             case 3:
                 difficulty = getInteractionUtilisateur().getDifficultyLevel();
-                getBoardGame().setPlayer1(new Player("| ⚪ ", "AI 1", true, difficulty));
-                getBoardGame().setPlayer2(new Player("| 🟤 ", "AI 2", true, difficulty));
+                getBoardGame().setPlayer1(new Player("⚪", "AI 1", true, difficulty));
+                getBoardGame().setPlayer2(new Player("🟤", "AI 2", true, difficulty));
                 play();
                 break;
             default:

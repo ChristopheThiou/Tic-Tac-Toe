@@ -17,8 +17,6 @@ public class PuissanceQuatre extends BoardGame {
                     board[i][j] = new Cell();
                 }
             }
-            player1 = new Player("| 🔴 ", "Joueur 1", false, 0);
-            player2 = new Player("| 🟡 ", "Joueur 2", false, 0);
         }
 
         public Cell[][] getBoard() {
@@ -41,10 +39,10 @@ public class PuissanceQuatre extends BoardGame {
                 board[i][col].setOwner(player.getSymbol());
                 vue.afficherMessage("Jeton placé en [" + i + "][" + col + "]");
                 return true;
+                }
             }
+            return false;
         }
-        return false;
-    }
 
     @Override
     public boolean isOver() {

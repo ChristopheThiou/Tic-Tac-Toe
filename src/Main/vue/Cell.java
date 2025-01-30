@@ -21,6 +21,6 @@ public class Cell {
     }
 
     public String getRepresentation() {
-        return (ownerSymbol == null) ? "|    " : ownerSymbol;
+        return (ownerSymbol == null) ? "|  " : String.format("|%-1s", ownerSymbol);
     }
 }

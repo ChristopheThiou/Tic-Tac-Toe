@@ -41,6 +41,8 @@ public abstract class BoardGame {
 
     public abstract boolean isOver();
 
+    protected abstract void setOwner(int row, int col, Player player);
+
     public InteractionUtilisateur getInteractionUtilisateur() {
         return interactionUtilisateur;
     }
@@ -68,6 +70,4 @@ public abstract class BoardGame {
     public void setPlayer2(Player player2) {
         this.player2 = player2;
     }
-
-    protected abstract void setOwner(int row, int col, Player player);
 }

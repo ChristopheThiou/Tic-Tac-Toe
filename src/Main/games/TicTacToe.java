@@ -17,8 +17,6 @@ public class TicTacToe extends BoardGame {
                 board[i][j] = new Cell();
             }
         }
-        player1 = new Player("| ❌ ", "Joueur 1", false, 0);
-        player2 = new Player("| ⭕ ", "Joueur 2", false, 0);
     }
 
     public Cell[][] getBoard() {
