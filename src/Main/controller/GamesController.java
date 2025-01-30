@@ -1,13 +1,10 @@
 package main.controller;
 
 import main.games.BoardGame;
-import main.games.Gomoku;
-import main.games.PuissanceQuatre;
-import main.games.TicTacToe;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
-public class GamesController {
+public abstract class GamesController {
     private Vue vue;
     private InteractionUtilisateur interactionUtilisateur;
 
@@ -34,24 +31,5 @@ public class GamesController {
         this.interactionUtilisateur = new InteractionUtilisateur();
     }
 
-    public void startGame() {
-        int gameChoice = interactionUtilisateur.getGameChoice();
-        BoardGame gameInstance;
-
-        switch (gameChoice) {
-            case 1:
-                gameInstance = new TicTacToe(vue, interactionUtilisateur);
-                break;
-            case 2:
-                gameInstance = new PuissanceQuatre(vue, interactionUtilisateur);
-                break;
-            case 3:
-                gameInstance = new Gomoku(vue, interactionUtilisateur);
-                break;
-            default:
-                vue.afficherMessage("Choix invalide. Veuillez réessayer.");
-                return;
-        }
-        gameInstance.gameMode();
-    }
+    public abstract void play();
 }

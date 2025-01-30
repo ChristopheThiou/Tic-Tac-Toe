@@ -11,63 +11,67 @@ import main.vue.Vue;
 
 
 public class PuissanceQuatre extends BoardGame {
-    private final Cell[][] board;
+    private static Cell[][] board;
 
-    public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur, 7);
-        board = new Cell[6][size];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < size; j++) {
-                board[i][j] = new Cell();
+            public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
+                super(vue, interactionUtilisateur, 7);
+                board = new Cell[6][size];
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < size; j++) {
+                    board[i][j] = new Cell();
+                }
             }
+            player1 = new Player("| 🔴 ", "Joueur 1", false, 0);
+            player2 = new Player("| 🟡 ", "Joueur 2", false, 0);
         }
-        player1 = new Player("| 🔴 ", "Joueur 1", false, 0);
-        player2 = new Player("| 🟡 ", "Joueur 2", false, 0);
-    }
-
-    @Override
-    public void play() {
-        vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
-        vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");
-        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
-
-        boolean gameOver = false;
-
-        Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
-
-        while (!gameOver) {
-            vue.display(board);
-            int col = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer)[1] : getMoveFromPlayer(currentPlayer)[1];
-
-            if (placerJeton(currentPlayer, col)) {
-                if (verifierVictoire()) {
-                    vue.display(board);
-                    vue.afficherMessage(currentPlayer.getName() + " a gagné!");
-                    gameOver = true;
-                } else if (isBoardFull()) {
-                    vue.display(board);
-                    vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
-                    gameOver = true;
-                } else {
-                    currentPlayer = (currentPlayer == player1) ? player2 : player1;
+    
+        public Cell[][] getBoard() {
+            return board;
+        }
+    
+        @Override
+        public void play() {
+            vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
+            vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");
+            vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
+    
+            boolean gameOver = false;
+    
+            Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
+    
+            while (!gameOver) {
+                vue.display(board);
+                int col = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer)[1] : getMoveFromPlayer(currentPlayer)[1];
+    
+                if (placerJeton(currentPlayer, col)) {
+                    if (isOver()) {
+                        vue.display(board);
+                        vue.afficherMessage(currentPlayer.getName() + " a gagné!");
+                        gameOver = true;
+                    } else if (isBoardFull()) {
+                        vue.display(board);
+                        vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
+                        gameOver = true;
+                    } else {
+                        currentPlayer = (currentPlayer == player1) ? player2 : player1;
+                    }
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isValidMove(int row, int col) {
-        return col >= 0 && col < size && board[0][col].isEmpty();
-    }
-
-    private boolean placerJeton(Player player, int col) {
-        if (col < 0 || col >= size) {
-            vue.afficherMessage("Colonne hors limites : " + col);
-            return false;
+    
+        @Override
+        public boolean isValidMove(int row, int col) {
+            return col >= 0 && col < size && board[0][col].isEmpty();
         }
-
-        for (int i = 5; i >= 0; i--) {
-            if (board[i][col].isEmpty()) {
+    
+        public static boolean placerJeton(Player player, int col) {
+            if (col < 0 || col >= size) {
+                vue.afficherMessage("Colonne hors limites : " + col);
+                return false;
+            }
+    
+            for (int i = 5; i >= 0; i--) {
+                if (board[i][col].isEmpty()) {
                 board[i][col].setOwner(player.getSymbol());
                 vue.afficherMessage("Jeton placé en [" + i + "][" + col + "]");
                 return true;
@@ -76,7 +80,8 @@ public class PuissanceQuatre extends BoardGame {
         return false;
     }
 
-    private boolean verifierVictoire() {
+    @Override
+    public boolean isOver() {
 
         for (int i = 0; i < 6; i++) {
             int count = 1;
@@ -141,7 +146,8 @@ public class PuissanceQuatre extends BoardGame {
         return false;
     }
 
-    private boolean isBoardFull() {
+    @Override
+    public boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             if (board[0][i].isEmpty()) {
                 return false;
@@ -186,6 +192,7 @@ public class PuissanceQuatre extends BoardGame {
         return new int[]{0, col};
     }
 
+    @Override
     public int[] getMoveFromPlayer(Player player) {
         int col = 0;
         while (true) {
@@ -210,7 +217,8 @@ public class PuissanceQuatre extends BoardGame {
         return new int[]{0, col};
     }
 
-    private int[] getMoveFromAI(Player player) {
+    @Override
+    public int[] getMoveFromAI(Player player) {
         int difficulty = player.getDifficultyLevel();
         switch (difficulty) {
             case 1:
@@ -321,5 +329,10 @@ public class PuissanceQuatre extends BoardGame {
             }
         }
         return false;
+    }
+
+    @Override
+    protected void setOwner(int row, int col, Player player) {
+        // TODO
     }
 }

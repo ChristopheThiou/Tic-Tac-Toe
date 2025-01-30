@@ -25,6 +25,10 @@ public class Gomoku extends BoardGame {
         player2 = new Player("| 🟤 ", "Joueur 2", false, 0);
     }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
+
     @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Gomoku! 🤗");
@@ -63,13 +67,15 @@ public class Gomoku extends BoardGame {
         return board[row][col].isEmpty();
     }
 
-    private void setOwner(int row, int col, Player player) {
+    @Override
+    public void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player.getSymbol());
         }
     }
 
-    private boolean isBoardFull() {
+    @Override
+    public boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
@@ -80,7 +86,8 @@ public class Gomoku extends BoardGame {
         return true;
     }
 
-    private boolean isOver() {
+    @Override
+    public boolean isOver() {
 
         for (int i = 0; i < size; i++) {
             int count = 1;
@@ -182,7 +189,8 @@ public class Gomoku extends BoardGame {
         return new int[]{row, col};
     }
 
-    private int[] getMoveFromPlayer(Player player) {
+    @Override
+    public int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
             try {
@@ -212,7 +220,8 @@ public class Gomoku extends BoardGame {
         return new int[]{row, col};
     }
 
-    private int[] getMoveFromAI(Player player) {
+    @Override
+    public int[] getMoveFromAI(Player player) {
         int difficulty = player.getDifficultyLevel();
         switch (difficulty) {
             case 1:

@@ -25,24 +25,28 @@ public class TicTacToe extends BoardGame {
         player2 = new Player("| ⭕ ", "Joueur 2", false, 0);
     }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
+
     @Override
     public void play() {
         vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe! 🤗");
         vue.afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
         vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
 
-        Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
+        initFirstPlayer();
 
         while (true) {
             vue.display(board);
 
-            int[] move = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer) : getMoveFromPlayer(currentPlayer);
-            setOwner(move[0], move[1], currentPlayer);
-            vue.afficherMessage(currentPlayer.getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
+            int[] move = getCurrentPlayer().isArtificial ? getMoveFromAI(getCurrentPlayer()) : getMoveFromPlayer(getCurrentPlayer());
+            setOwner(move[0], move[1], getCurrentPlayer());
+            vue.afficherMessage(getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
             if (isOver()) {
                 vue.display(board);
-                vue.afficherMessage("Le jeu est terminé! " + currentPlayer.getName() + " a gagné! 🔆👌");
+                vue.afficherMessage("Le jeu est terminé! " + getCurrentPlayer().getName() + " a gagné! 🔆👌");
                 break;
             }
 
@@ -51,9 +55,11 @@ public class TicTacToe extends BoardGame {
                 vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }
-            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+            setCurrentPlayer( getCurrentPlayer().equals(player1) ? player2 : player1);
         }
     }
+
+
 
     @Override
     public boolean isValidMove(int row, int col) {
@@ -63,13 +69,15 @@ public class TicTacToe extends BoardGame {
         return board[row][col].isEmpty();
     }
 
-    private void setOwner(int row, int col, Player player) {
+    @Override
+    protected void setOwner(int row, int col, Player player) {
         if (isValidMove(row, col)) {
             board[row][col].setOwner(player.getSymbol());
         }
     }
 
-    private boolean isBoardFull() {
+    @Override
+    public boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board[i][j].isEmpty()) {
@@ -80,7 +88,8 @@ public class TicTacToe extends BoardGame {
         return true;
     }
 
-    private boolean isOver() {
+    @Override
+    public boolean isOver() {
         for (int i = 0; i < size; i++) {
             int count = 1;
             for (int j = 1; j < size; j++) {
@@ -173,7 +182,8 @@ public void gameMode() {
         return new int[]{row, col};
     }
 
-    private int[] getMoveFromPlayer(Player player) {
+    @Override
+    public int[] getMoveFromPlayer(Player player) {
         int row = 0, col = 0;
         while (true) {
             try {
@@ -203,7 +213,8 @@ public void gameMode() {
         return new int[]{row, col};
     }
 
-    private int[] getMoveFromAI(Player player) {
+    @Override
+    public int[] getMoveFromAI(Player player) {
         int difficulty = player.getDifficultyLevel();
         switch (difficulty) {
             case 1:
