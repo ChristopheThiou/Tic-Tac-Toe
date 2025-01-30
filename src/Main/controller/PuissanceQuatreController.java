@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.games.Player;
 import main.games.PuissanceQuatre;
 
 public class PuissanceQuatreController extends GamesController {
@@ -21,7 +22,7 @@ public class PuissanceQuatreController extends GamesController {
 
         while (!gameOver) {
             getVue().display(((PuissanceQuatre) getBoardGame()).getBoard());
-            int col []= getBoardGame().move(new int[1]);
+            int col []= getBoardGame().move();
 
             if (PuissanceQuatre.placerJeton(getBoardGame().getCurrentPlayer(), col [1])) {
                 if (getBoardGame().isOver()) {
@@ -36,6 +37,32 @@ public class PuissanceQuatreController extends GamesController {
                     getBoardGame().switchPlayer();
                 }
             }
+        }
+    }
+
+    @Override
+    public void gameMode() {
+        int choice = getInteractionUtilisateur().getGameMode();
+        int difficulty = 1;
+
+        switch (choice) {
+            case 1:
+                play();
+                break;
+            case 2:
+                difficulty = getInteractionUtilisateur().getDifficultyLevel();
+                getBoardGame().setPlayer2(new Player("| 🟡 ", "AI", true, difficulty));
+                play();
+                break;
+            case 3:
+                difficulty = getInteractionUtilisateur().getDifficultyLevel();
+                getBoardGame().setPlayer1(new Player("| 🔴 ", "AI 1", true, difficulty));
+                getBoardGame().setPlayer2(new Player("| 🟡 ", "AI 2", true, difficulty));
+                play();
+                break;
+            default:
+                getVue().afficherMessage("Choix invalide. Veuillez réessayer.");
+                gameMode();
         }
     }
 }

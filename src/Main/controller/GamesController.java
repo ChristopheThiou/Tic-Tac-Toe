@@ -8,7 +8,7 @@ public abstract class GamesController {
     private Vue vue;
     private InteractionUtilisateur interactionUtilisateur;
 
-    protected BoardGame getBoardGame() {
+    public BoardGame getBoardGame() {
         return boardGame;
     }
 
@@ -32,4 +32,6 @@ public abstract class GamesController {
     }
 
     public abstract void play();
+
+    public abstract void gameMode();
 }

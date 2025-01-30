@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.games.Gomoku;
+import main.games.Player;
 
 public class GomokuController extends GamesController {
 
@@ -20,7 +21,7 @@ public class GomokuController extends GamesController {
         while (true) {
             getVue().display(((Gomoku) getBoardGame()).getBoard());
 
-            int[] move = getBoardGame().move(new int[2]);
+            int[] move = getBoardGame().move();
             ((Gomoku) getBoardGame()).getBoardGame().occupy(move);
             getVue().afficherMessage(getBoardGame().getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
@@ -36,6 +37,32 @@ public class GomokuController extends GamesController {
                 break;
             }
             getBoardGame().switchPlayer();
+        }
+    }
+
+    @Override
+    public void gameMode() {
+        int choice = getInteractionUtilisateur().getGameMode();
+        int difficulty = 1;
+
+        switch (choice) {
+            case 1:
+                play();
+                break;
+            case 2:
+                difficulty = getInteractionUtilisateur().getDifficultyLevel();
+                getBoardGame().setPlayer2(new Player("| 🟤 ", "AI", true, difficulty));
+                play();
+                break;
+            case 3:
+                difficulty = getInteractionUtilisateur().getDifficultyLevel();
+                getBoardGame().setPlayer1(new Player("| ⚪ ", "AI 1", true, difficulty));
+                getBoardGame().setPlayer2(new Player("| 🟤 ", "AI 2", true, difficulty));
+                play();
+                break;
+            default:
+                getVue().afficherMessage("Choix invalide. Veuillez réessayer.");
+                gameMode();
         }
     }
 }

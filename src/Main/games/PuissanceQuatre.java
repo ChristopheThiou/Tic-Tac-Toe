@@ -6,10 +6,6 @@ import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
-
-
-
-
 public class PuissanceQuatre extends BoardGame {
     private static Cell[][] board;
 
@@ -24,52 +20,22 @@ public class PuissanceQuatre extends BoardGame {
             player1 = new Player("| 🔴 ", "Joueur 1", false, 0);
             player2 = new Player("| 🟡 ", "Joueur 2", false, 0);
         }
-    
+
         public Cell[][] getBoard() {
             return board;
         }
-    
-        @Override
-        public void play() {
-            vue.afficherMessage("Bienvenue dans le jeu Puissance 4! 🤗");
-            vue.afficherMessage("Joueur 1 avec 🔴 et Joueur 2 avec 🟡");
-            vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
-    
-            boolean gameOver = false;
-    
-            Player currentPlayer = Player.randomizeFirstPlayer(player1, player2, vue);
-    
-            while (!gameOver) {
-                vue.display(board);
-                int col = currentPlayer.isArtificial ? getMoveFromAI(currentPlayer)[1] : getMoveFromPlayer(currentPlayer)[1];
-    
-                if (placerJeton(currentPlayer, col)) {
-                    if (isOver()) {
-                        vue.display(board);
-                        vue.afficherMessage(currentPlayer.getName() + " a gagné!");
-                        gameOver = true;
-                    } else if (isBoardFull()) {
-                        vue.display(board);
-                        vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
-                        gameOver = true;
-                    } else {
-                        currentPlayer = (currentPlayer == player1) ? player2 : player1;
-                    }
-                }
-            }
-        }
-    
+
         @Override
         public boolean isValidMove(int row, int col) {
             return col >= 0 && col < size && board[0][col].isEmpty();
         }
-    
+
         public static boolean placerJeton(Player player, int col) {
             if (col < 0 || col >= size) {
                 vue.afficherMessage("Colonne hors limites : " + col);
                 return false;
             }
-    
+
             for (int i = 5; i >= 0; i--) {
                 if (board[i][col].isEmpty()) {
                 board[i][col].setOwner(player.getSymbol());
@@ -154,32 +120,6 @@ public class PuissanceQuatre extends BoardGame {
             }
         }
         return true;
-    }
-
-    @Override
-    public void gameMode() {
-        int choice = interactionUtilisateur.getGameMode();
-        int difficulty = 1;
-
-        switch (choice) {
-            case 1:
-                play();
-                break;
-            case 2:
-                difficulty = interactionUtilisateur.getDifficultyLevel();
-                player2 = new Player("| 🟡 ", "AI", true, difficulty);
-                play();
-                break;
-            case 3:
-                difficulty = interactionUtilisateur.getDifficultyLevel();
-                player1 = new Player("| 🔴 ", "AI 1", true, difficulty);
-                player2 = new Player("| 🟡 ", "AI 2", true, difficulty);
-                play();
-                break;
-            default:
-                vue.afficherMessage("Choix de mode de jeu invalide. Veuillez réessayer. 👺");
-                gameMode();
-        }
     }
 
     @Override

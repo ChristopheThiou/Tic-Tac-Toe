@@ -31,10 +31,6 @@ public abstract class BoardGame {
 
     public abstract boolean isValidMove(int row, int col);
 
-    public abstract void play();
-
-    public abstract void gameMode();
-
     public abstract int[] generateRandomPosition();
 
     public abstract int[] getMoveFromAI(Player player);
@@ -45,6 +41,10 @@ public abstract class BoardGame {
 
     public abstract boolean isOver();
 
+    public InteractionUtilisateur getInteractionUtilisateur() {
+        return interactionUtilisateur;
+    }
+
     public  void initFirstPlayer() {
         setCurrentPlayer(Player.randomizeFirstPlayer(player1, player2, vue));
     }
@@ -53,13 +53,20 @@ public abstract class BoardGame {
         setCurrentPlayer(getCurrentPlayer().equals(player1) ? player2 : player1);
     }
 
-    public int [] move(int[] move) {
-        move = getBoardGame().getCurrentPlayer().isArtificial ? getBoardGame().getMoveFromAI(getBoardGame().getCurrentPlayer()) : getBoardGame().getMoveFromPlayer(getBoardGame().getCurrentPlayer());
-        return move;
+    public int[] move() {
+        return getCurrentPlayer().isArtificial ? getMoveFromAI(getCurrentPlayer()) : getMoveFromPlayer(getCurrentPlayer());
     }
 
     public void occupy(int [] move) {
         setOwner(move[0], move[1], getCurrentPlayer());
+    }
+
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
     }
 
     protected abstract void setOwner(int row, int col, Player player);

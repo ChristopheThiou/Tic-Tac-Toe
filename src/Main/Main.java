@@ -1,9 +1,9 @@
 package main;
 
-import main.games.BoardGame;
-import main.games.Gomoku;
-import main.games.PuissanceQuatre;
-import main.games.TicTacToe;
+import main.controller.GamesController;
+import main.controller.GomokuController;
+import main.controller.PuissanceQuatreController;
+import main.controller.TicTacToeController;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
@@ -16,17 +16,17 @@ public class Main {
         InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
         Vue vue = new Vue();
         int gameChoice = interactionUtilisateur.getGameChoice();
-        BoardGame gameInstance;
+        GamesController gameInstance;
 
         switch (gameChoice) {
             case 1:
-                gameInstance = new TicTacToe(vue, interactionUtilisateur);
+                gameInstance = new TicTacToeController();
                 break;
             case 2:
-                gameInstance = new PuissanceQuatre(vue, interactionUtilisateur);
+                gameInstance = new PuissanceQuatreController();
                 break;
             case 3:
-                gameInstance = new Gomoku(vue, interactionUtilisateur);
+                gameInstance = new GomokuController();
                 break;
             default:
                 vue.afficherMessage("Choix invalide. Veuillez réessayer.");

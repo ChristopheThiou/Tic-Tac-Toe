@@ -6,10 +6,6 @@ import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
-
-
-
-
 public class TicTacToe extends BoardGame {
     private final Cell[][] board;
 
@@ -28,38 +24,6 @@ public class TicTacToe extends BoardGame {
     public Cell[][] getBoard() {
         return board;
     }
-
-    @Override
-    public void play() {
-        vue.afficherMessage("Bienvenue dans le jeu Tic Tac Toe! 🤗");
-        vue.afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
-        vue.afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
-
-        initFirstPlayer();
-
-        while (true) {
-            vue.display(board);
-
-            int[] move = getCurrentPlayer().isArtificial ? getMoveFromAI(getCurrentPlayer()) : getMoveFromPlayer(getCurrentPlayer());
-            setOwner(move[0], move[1], getCurrentPlayer());
-            vue.afficherMessage(getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
-
-            if (isOver()) {
-                vue.display(board);
-                vue.afficherMessage("Le jeu est terminé! " + getCurrentPlayer().getName() + " a gagné! 🔆👌");
-                break;
-            }
-
-            if (isBoardFull()) {
-                vue.display(board);
-                vue.afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
-                break;
-            }
-            setCurrentPlayer( getCurrentPlayer().equals(player1) ? player2 : player1);
-        }
-    }
-
-
 
     @Override
     public boolean isValidMove(int row, int col) {
@@ -144,32 +108,6 @@ public class TicTacToe extends BoardGame {
 
         return false;
     }
-
-@Override
-public void gameMode() {
-    int choice = interactionUtilisateur.getGameMode();
-    int difficulty = 1; 
-
-    switch (choice) {
-        case 1:
-            play();
-            break;
-        case 2:
-            difficulty = interactionUtilisateur.getDifficultyLevel();
-            player2 = new Player("| ⭕ ", "AI", true, difficulty);
-            play();
-            break;
-        case 3:
-            difficulty = interactionUtilisateur.getDifficultyLevel();
-            player1 = new Player("| ❌ ", "AI 1", true, difficulty);
-            player2 = new Player("| ⭕ ", "AI 2", true, difficulty);
-            play();
-            break;
-        default:
-            vue.afficherMessage("Choix invalide. Veuillez réessayer. 👺");
-            gameMode();
-    }
-}
 
     @Override
     public int[] generateRandomPosition() {
