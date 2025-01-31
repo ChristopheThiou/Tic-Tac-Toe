@@ -7,7 +7,7 @@ import main.vue.Vue;
 public class Gomoku extends BoardGame {
 
     public Gomoku(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur, 15, 5);
+        super(vue, interactionUtilisateur, 15, 5, "Gomoku");
     }
 
     @Override

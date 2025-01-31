@@ -7,7 +7,7 @@ import main.vue.Vue;
 public class TicTacToe extends BoardGame {
 
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur, 3, 3);
+        super(vue, interactionUtilisateur, 3, 3, "Tic Tac Toe");
     }
 
     @Override

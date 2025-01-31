@@ -15,9 +15,9 @@ public class GomokuController extends GamesController {
 
     @Override
     public void play() {
-        getVue().afficherMessage("Bienvenue dans le jeu Gomoku! 🤗");
-        getVue().afficherMessage("Joueur 1 avec ⚪ et Joueur 2 avec 🟤");
-        getVue().afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
+        getVue().messageAccueil(getBoardGame());
+        getVue().symbolJoueurs(getBoardGame());
+        getVue().endGameMessage(getBoardGame());
 
         getBoardGame().initFirstPlayer();
 

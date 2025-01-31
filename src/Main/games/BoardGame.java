@@ -12,16 +12,18 @@ public abstract class BoardGame {
     protected InteractionUtilisateur interactionUtilisateur;
     protected int size;
     protected int winCondition;
+    protected final String name;
     protected Player player1;
     protected Player player2;
     protected Player currentPlayer;
     protected Cell[][] board;
 
-    public BoardGame(Vue vue, InteractionUtilisateur interactionUtilisateur, int size, int winCondition) {
+    public BoardGame(Vue vue, InteractionUtilisateur interactionUtilisateur, int size, int winCondition, String name) {
         this.vue = vue;
         this.interactionUtilisateur = interactionUtilisateur;
         this.size = size;
         this.winCondition = winCondition;
+        this.name = name;
         this.board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -70,6 +72,18 @@ public abstract class BoardGame {
 
     public void setPlayer2(Player player) {
         this.player2 = player;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public String getGameName() {
+        return name;
     }
 
     public Player getCurrentPlayer() {

@@ -7,7 +7,7 @@ import main.vue.Vue;
 public class PuissanceQuatre extends BoardGame {
 
     public PuissanceQuatre(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur, 7, 4);
+        super(vue, interactionUtilisateur, 7, 4, "Puissance Quatre");
         board = new Cell[6][size];
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < size; j++) {
