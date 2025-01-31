@@ -1,7 +1,5 @@
 package main.games;
 
-import java.util.InputMismatchException;
-import java.util.Random;
 import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
@@ -13,75 +11,36 @@ public class PuissanceQuatre extends BoardGame {
         board = new Cell[6][size];
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < size; j++) {
-                    board[i][j] = new Cell();
+                    this.board[i][j] = new Cell();
             }
         }
     }
 
-    public Cell[][] getBoard() {
-        return board;
+    @Override
+    protected boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
+        int count = 0;
+        String playerSymbol = player.getSymbol();
+        for (int i = 0; i < 4; i++) {
+            int newRow = row + i * dRow;
+            int newCol = col + i * dCol;
+            if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < size) {
+                String owner = board[newRow][newCol].getOwner();
+                if (owner != null && owner.equals(playerSymbol)) {
+                    count++;
+                    if (count == winCondition) {
+                        return true;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean isValidMove(int row, int col) {
         return col >= 0 && col < size && board[0][col].isEmpty();
-    }
-
-    @Override
-    protected void setOwner(int row, int col, Player player) {
-        if (isValidMove(row, col)) {
-            board[row][col].setOwner(player.getSymbol());
-        }
-    }
-
-    @Override
-    public boolean isBoardFull() {
-        for (int i = 0; i < size; i++) {
-            if (board[0][i].isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isOver() {
-        return checkVictory(getCurrentPlayer());
-    }
-
-    @Override
-    public int[] generateRandomPosition() {
-        Random random = new Random();
-        int col;
-        do {
-            col = random.nextInt(size);
-        } while (!isValidMove(0, col));
-        return new int[]{0, col};
-    }
-
-    @Override
-    public int[] getMoveFromPlayer(Player player) {
-        int col = 0;
-        while (true) {
-            try {
-                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 6) ou 404 pour quitter: ");
-                col = interactionUtilisateur.scanner.nextInt();
-                if (col == 404) {
-                    vue.afficherMessage("Partie terminée par l'utilisateur.");
-                    System.exit(0);
-                }
-
-                if (isValidMove(0, col)) {
-                    break;
-                } else {
-                    vue.afficherMessage("Mouvement invalide. La colonne est pleine ou hors des limites. Veuillez réessayer. 💩");
-                }
-            } catch (InputMismatchException e) {
-                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
-                interactionUtilisateur.scanner.next();
-            }
-        }
-        return new int[]{0, col};
     }
 
     @Override

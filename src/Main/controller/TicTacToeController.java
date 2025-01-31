@@ -22,20 +22,20 @@ public class TicTacToeController extends GamesController {
         getBoardGame().initFirstPlayer();
 
         while (true) {
-            getVue().display(((TicTacToe) getBoardGame()).getBoard());
+            getVue().display((getBoardGame()).getBoard());
 
             int[] move = getBoardGame().move();
-            ((TicTacToe) getBoardGame()).occupy(move);
+            (getBoardGame()).occupy(move);
             getVue().afficherMessage(getBoardGame().getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
             if (getBoardGame().isOver()) {
-                getVue().display(((TicTacToe) getBoardGame()).getBoard());
+                getVue().display((getBoardGame()).getBoard());
                 getVue().afficherMessage("Le jeu est terminé! " + getBoardGame().getCurrentPlayer().getName() + " a gagné! 🔆👌");
                 break;
             }
 
             if (getBoardGame().isBoardFull()) {
-                getVue().display(((TicTacToe) getBoardGame()).getBoard());
+                getVue().display((getBoardGame()).getBoard());
                 getVue().afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                 break;
             }

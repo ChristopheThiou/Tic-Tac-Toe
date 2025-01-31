@@ -24,17 +24,17 @@ public class PuissanceQuatreController extends GamesController {
         getBoardGame().initFirstPlayer();
 
         while (!gameOver) {
-            getVue().display(((PuissanceQuatre) getBoardGame()).getBoard());
+            getVue().display(getBoardGame().getBoard());
             int[] move = getBoardGame().move();
             int col = move[1];
 
             if (((PuissanceQuatre)getBoardGame()).placerJeton(getBoardGame().getCurrentPlayer(), col)) {
                 if (getBoardGame().isOver()) {
-                    getVue().display(((PuissanceQuatre) getBoardGame()).getBoard());
+                    getVue().display((getBoardGame()).getBoard());
                     getVue().afficherMessage(getBoardGame().getCurrentPlayer().getName() + " a gagné!");
                     gameOver = true;
                 } else if (getBoardGame().isBoardFull()) {
-                    getVue().display(((PuissanceQuatre) getBoardGame()).getBoard());
+                    getVue().display((getBoardGame()).getBoard());
                     getVue().afficherMessage("Le jeu est terminé! Toutes les cases sont remplies.");
                     gameOver = true;
                 } else {

@@ -1,8 +1,11 @@
 package main.games;
 
+import java.util.InputMismatchException;
+import java.util.Random;
 import main.vue.Cell;
 import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
+
 
 public abstract class BoardGame {
     protected Vue vue;
@@ -27,17 +30,15 @@ public abstract class BoardGame {
         }
     }
 
-    public abstract boolean isValidMove(int row, int col);
-
-    public abstract int[] generateRandomPosition();
-
     public abstract int[] getMoveFromAI(Player player);
 
-    public abstract int[] getMoveFromPlayer(Player player);
+    public Cell[][] getBoard() {
+        return board;
+    }
 
-    public abstract boolean isBoardFull();
-
-    public abstract boolean isOver();
+    public boolean isOver() {
+        return checkVictory(getCurrentPlayer());
+    }
 
     public InteractionUtilisateur getInteractionUtilisateur() {
         return interactionUtilisateur;
@@ -62,8 +63,6 @@ public abstract class BoardGame {
             throw new IllegalArgumentException("Invalid move");
         }
     }
-
-    protected abstract void setOwner(int row, int col, Player player);
 
     public void setPlayer1(Player player) {
         this.player1 = player;
@@ -95,7 +94,7 @@ public abstract class BoardGame {
         return false;
     }
 
-    private boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
+    protected boolean checkDirection(int row, int col, Player player, int dRow, int dCol) {
         int count = 0;
         String playerSymbol = player.getSymbol();
         for (int i = 0; i < winCondition; i++) {
@@ -114,5 +113,69 @@ public abstract class BoardGame {
             }
         }
         return false;
+    }
+
+    protected boolean isValidMove(int row, int col) {
+        if (row < 0 || row >= size || col < 0 || col >= size) {
+            return false;
+        }
+        return board[row][col].isEmpty();
+    }
+
+    protected void setOwner(int row, int col, Player player) {
+        if (isValidMove(row, col)) {
+            board[row][col].setOwner(player.getSymbol());
+        }
+    }
+
+    public boolean isBoardFull() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j].isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    protected int[] generateRandomPosition() {
+        Random random = new Random();
+        int row, col;
+        do {
+            row = random.nextInt(size);
+            col = random.nextInt(size);
+        } while (!isValidMove(row, col));
+        return new int[]{row, col};
+    }
+
+    protected int[] getMoveFromPlayer(Player player) {
+        int row = 0, col = 0;
+        while (true) {
+            try {
+                vue.afficherMessage(player.getName() + ", entrez le numéro de ligne (0 à 2) ou 404 pour quitter: ");
+                row = interactionUtilisateur.scanner.nextInt();
+                if (row == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+                vue.afficherMessage(player.getName() + ", entrez le numéro de colonne (0 à 2) ou 404 pour quitter: ");
+                col = interactionUtilisateur.scanner.nextInt();
+                if (col == 404) {
+                    vue.afficherMessage("Partie terminée par l'utilisateur.");
+                    System.exit(0);
+                }
+
+                if (isValidMove(row, col)) {
+                    break;
+                } else {
+                    vue.afficherMessage("Mouvement invalide. La case est déjà occupée ou hors des limites. Veuillez réessayer. 💩");
+                }
+            } catch (InputMismatchException e) {
+                vue.afficherMessage("Entrée invalide. Veuillez entrer un nombre.");
+                interactionUtilisateur.scanner.next();
+            }
+        }
+        return new int[]{row, col};
     }
 }
