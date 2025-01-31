@@ -25,7 +25,7 @@ public class GomokuController extends GamesController {
             getVue().display(((Gomoku) getBoardGame()).getBoard());
 
             int[] move = getBoardGame().move();
-            ((Gomoku) getBoardGame()).getBoardGame().occupy(move);
+            ((Gomoku) getBoardGame()).occupy(move);
             getVue().afficherMessage(getBoardGame().getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
             if (getBoardGame().isOver()) {

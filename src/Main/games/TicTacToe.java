@@ -7,16 +7,9 @@ import main.vue.InteractionUtilisateur;
 import main.vue.Vue;
 
 public class TicTacToe extends BoardGame {
-    private final Cell[][] board;
 
     public TicTacToe(Vue vue, InteractionUtilisateur interactionUtilisateur) {
-        super(vue, interactionUtilisateur, 3);
-        board = new Cell[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                board[i][j] = new Cell();
-            }
-        }
+        super(vue, interactionUtilisateur, 3, 3);
     }
 
     public Cell[][] getBoard() {
@@ -52,59 +45,7 @@ public class TicTacToe extends BoardGame {
 
     @Override
     public boolean isOver() {
-        for (int i = 0; i < size; i++) {
-            int count = 1;
-            for (int j = 1; j < size; j++) {
-                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i][j - 1].getOwner()) {
-                    count++;
-                    if (count == 3) {
-                        return true;
-                    }
-                } else {
-                    count = 1;
-                }
-            }
-        }
-
-        for (int j = 0; j < size; j++) {
-            int count = 1;
-            for (int i = 1; i < size; i++) {
-                if (board[i][j].getOwner() != null && board[i][j].getOwner() == board[i - 1][j].getOwner()) {
-                    count++;
-                    if (count == 3) {
-                        return true;
-                    }
-                } else {
-                    count = 1;
-                }
-            }
-        }
-
-        int count = 1;
-        for (int i = 1; i < size; i++) {
-            if (board[i][i].getOwner() != null && board[i][i].getOwner() == board[i - 1][i - 1].getOwner()) {
-                count++;
-                if (count == 3) {
-                    return true;
-                }
-            } else {
-                count = 1;
-            }
-        }
-
-        count = 1;
-        for (int i = 1; i < size; i++) {
-            if (board[i][size - i - 1].getOwner() != null && board[i][size - i - 1].getOwner() == board[i - 1][size - i].getOwner()) {
-                count++;
-                if (count == 3) {
-                    return true;
-                }
-            } else {
-                count = 1;
-            }
-        }
-
-        return false;
+        return checkVictory(getCurrentPlayer());
     }
 
     @Override

@@ -25,7 +25,7 @@ public class TicTacToeController extends GamesController {
             getVue().display(((TicTacToe) getBoardGame()).getBoard());
 
             int[] move = getBoardGame().move();
-            ((TicTacToe) getBoardGame()).getBoardGame().occupy(move);
+            ((TicTacToe) getBoardGame()).occupy(move);
             getVue().afficherMessage(getBoardGame().getCurrentPlayer().getName() + " joue en position: (" + move[0] + ", " + move[1] + ")");
 
             if (getBoardGame().isOver()) {
