@@ -15,9 +15,10 @@ public class TicTacToeController extends GamesController {
 
     @Override
     public void play() {
-        getVue().messageAccueil(getBoardGame());
-        getVue().symbolJoueurs(getBoardGame());
-        getVue().endGameMessage(getBoardGame());
+        getVue().afficherMessage("Bienvenue dans le jeu Tic Tac Toe! 🤗");
+        getVue().afficherMessage("Joueur 1 avec ❌ et Joueur 2 avec ⭕");
+        getVue().afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
+
 
         getBoardGame().initFirstPlayer();
 

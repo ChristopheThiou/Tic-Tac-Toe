@@ -1,22 +1,8 @@
 package main.vue;
 
-import main.games.BoardGame;
-
 public class Vue {
     public void afficherMessage(String message) {
         System.out.println(message);
-    }
-
-    public void messageAccueil(BoardGame game) {
-        afficherMessage("Bienvenue dans le jeu " + game.getGameName() + "! 🤗");
-    }
-
-    public void symbolJoueurs(BoardGame game) {
-        afficherMessage(game.getPlayer1().getName() + " avec " + game.getPlayer1().getSymbol() + " et " + game.getPlayer2().getName() + " avec " + game.getPlayer2().getSymbol());
-    }
-
-    public void endGameMessage(BoardGame game) {
-        afficherMessage("Vous pouvez quitter le jeu à tout moment en tapant 404 💀");
     }
 
     public void display(Cell[][] board) {
